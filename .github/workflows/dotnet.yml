@@ -21,4 +21,4 @@ jobs:
     - name: Pack
       run: dotnet pack --configuration Release Melberg.Infrastructure.MySql/Melberg.Infrastructure.MySql.csproj
     - name: Push
-      run: dotnet nuget push "/home/runner/work/Melberg-Framework/Melberg-Framework/Melberg.Infrastructure.MySql/bin/Release/Melberg.Infrastructure.MySql.1.0.0.nupkg" --api-key ${{secrets.NUGET}} -s https://nuget.pkg.github.com/Joseph-Melberg/Melberg-Framework/
+      run: dotnet nuget push "/home/runner/work/Melberg-Framework/Melberg-Framework/Melberg.Infrastructure.MySql/bin/Release/Melberg.Infrastructure.MySql.1.0.0.nupkg" --api-key ${{secrets.NUGET}}  --source "github"
