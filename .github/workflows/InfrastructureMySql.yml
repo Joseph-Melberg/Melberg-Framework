@@ -19,6 +19,6 @@ jobs:
       run: dotnet restore
       
     - name: Pack
-      run: dotnet pack --configuration Release Melberg.Infrastructure.MySql/Melberg.Infrastructure.MySql.csproj
+      run: dotnet pack --configuration Release Melberg.Infrastructure.MySql/Melberg.Infrastructure.MySql.csproj --version-suffix $GITHUB_RUN_NUMBER
     - name: Push
-      run: dotnet nuget push "/home/runner/work/Melberg-Framework/Melberg-Framework/Melberg.Infrastructure.MySql/bin/Release/Melberg.Infrastructure.MySql.1.0.0.nupkg" --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push "Melberg.Infrastructure.MySql/bin/Release/Melberg.Infrastructure.MySql*" --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
