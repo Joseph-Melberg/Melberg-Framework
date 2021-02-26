@@ -38,7 +38,7 @@ jobs:
           replace: "world"
       - name: test
         run: |
-          cat Melberg.Infrastructure.MySql/Melberg.Infrastructure.Infrastructure.MySql.csproj
+          cat Melberg.Infrastructure.MySql/Melberg.Infrastructure.MySql.csproj
 
 
 
