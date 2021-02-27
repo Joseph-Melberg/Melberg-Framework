@@ -9,7 +9,8 @@ on:
     branches: [ master ]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
+env:
+  MY_WORKFLOW_VAR: work
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -21,6 +22,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - name: Set env
+        run: echo ::set-env name=STEPVAR::${{ env.MY_WORKFLOW_VAR }}-${{ github.run_number }}
       - name: Setup env
         uses: jwulf/add-env-vars-action@master
         with:
@@ -29,7 +32,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@master
         with:
           find: \d*\.\d*\.(\d*)\</Version
-          replace: ${{env.vers}}
+          replace: ${{env.STEPVAR}}
       - name: test
         run: |
           cat Melberg.Infrastructure.MySql/Melberg.Infrastructure.MySql.csproj
