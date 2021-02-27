@@ -4,6 +4,8 @@ on:
   push:
     branches: [ master ]
   workflow_dispatch:
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 jobs:
   build:
 
