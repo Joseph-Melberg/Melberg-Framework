@@ -1,4 +1,4 @@
-name: Infrastructure.MySql
+name: Pack And Push
 
 on:
   push:
@@ -17,17 +17,17 @@ jobs:
         dotnet-version: 5.0.x
     - name: Restore dependencies
       run: dotnet restore
-      
+    - name: Setup env
+      uses: jwulf/add-env-vars-action@master
+      with:
+        map: '{"vers": "1.0.${{ github.run_number }}</Version"}'
+    - name: show
+      run: echo $vers
     - name: Find and Replace
       uses: jacobtomlinson/gha-find-replace@master
       with:
         find: \d*\.\d*\.(\d*)\</Version
-        replace: "1.0.garbonzobeans</Version"
-    - name: Find and Replace
-      uses: jacobtomlinson/gha-find-replace@master
-      with:
-        find: "garbonzobeans"
-        replace: $GITHUB_RUN_NUMBER
+        replace: ${{env.vers}}
     - name: Pack
       run: dotnet pack --configuration Release Melberg.Infrastructure.MySql/Melberg.Infrastructure.MySql.csproj 
     - name: Push
