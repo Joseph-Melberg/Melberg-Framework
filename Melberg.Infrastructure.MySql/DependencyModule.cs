@@ -1,3 +1,4 @@
+using Melberg.Core.MySql;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Melberg.Infrastructure.MySql
@@ -9,7 +10,7 @@ namespace Melberg.Infrastructure.MySql
             where TFrom : class
             where TContext : DefaultContext
         {
-            catalog.AddSingleton<IMySQLConnectionStringProvider, MySQLConnectionStringProvider>();
+            catalog.AddSingleton<IMySqlConnectionStringProvider, MySQLConnectionStringProvider>();
 
             catalog.AddTransient<TFrom, TTo>();
 

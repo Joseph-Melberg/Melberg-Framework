@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using Melberg.Core.MySql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -7,8 +8,8 @@ namespace Melberg.Infrastructure.MySql
 {
     public class DefaultContext : DbContext
     {
-        private readonly IMySQLConnectionStringProvider _connectionStringProvider;
-        public DefaultContext(IMySQLConnectionStringProvider provider){
+        private readonly IMySqlConnectionStringProvider _connectionStringProvider;
+        public DefaultContext(IMySqlConnectionStringProvider provider){
             _connectionStringProvider = provider;
         } 
 

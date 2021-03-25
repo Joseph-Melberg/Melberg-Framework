@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Concurrent;
 using System.Threading;
+using Melberg.Core.MySql;
 using Microsoft.Extensions.Configuration;
 
 namespace Melberg.Infrastructure.MySql
 {
-        public class MySQLConnectionStringProvider : IMySQLConnectionStringProvider
+        public class MySQLConnectionStringProvider : IMySqlConnectionStringProvider
     {
         private readonly IConfiguration _configuration;
         private readonly ConcurrentDictionary<string, Lazy<string>> _connectionStrings = new ConcurrentDictionary<string, Lazy<string>>();
