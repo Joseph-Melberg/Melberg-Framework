@@ -8,6 +8,6 @@ namespace Melberg.Infrastructure.Rabbit.Configuration.Models
 
     public string Exchange {get; set;}
 
-    public string SubsriptionKey {get; set;}
+    public string SubscriptionKey {get; set;}
     }    
 }

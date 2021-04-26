@@ -15,5 +15,7 @@ namespace Melberg.Core.Rabbit.Configurations.Data
         public int MessageTtl { get; set; }
 
         public string DeadLetterExchange { get; set; }
+
+        public string QueueMasterLocatorSetting { get; set; }
     }
 }

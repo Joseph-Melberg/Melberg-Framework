@@ -15,5 +15,8 @@ namespace Melberg.Infrastructure.Rabbit.Configuration.Models
         public int MessageTtl {get; set;}    
 
         public string DeadLetterExchange {get; set;}
+
+                //https://www.rabbitmq.com/ha.html
+        public string QueueMasterLocatorSetting { get; set; }
     }    
 }

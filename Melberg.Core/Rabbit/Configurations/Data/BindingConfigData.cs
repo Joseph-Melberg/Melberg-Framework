@@ -7,6 +7,6 @@ namespace Melberg.Core.Rabbit.Configurations.Data
 
     public string Exchange {get; set;}
 
-    public string SubsriptionKey {get; set;}
+    public string SubscriptionKey {get; set;}
     }
 }
