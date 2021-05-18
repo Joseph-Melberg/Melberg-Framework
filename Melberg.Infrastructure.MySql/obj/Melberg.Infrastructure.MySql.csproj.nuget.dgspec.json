@@ -5,7 +5,7 @@
   },
   "projects": {
     "/home/jbmelberg/Documents/Git/Melberg-Framework/Melberg.Core/Melberg.Core.csproj": {
-      "version": "1.2.3",
+      "version": "1.0.2",
       "restore": {
         "projectUniqueName": "/home/jbmelberg/Documents/Git/Melberg-Framework/Melberg.Core/Melberg.Core.csproj",
         "projectName": "Melberg.Core",
@@ -55,7 +55,7 @@
       }
     },
     "/home/jbmelberg/Documents/Git/Melberg-Framework/Melberg.Infrastructure.MySql/Melberg.Infrastructure.MySql.csproj": {
-      "version": "1.2.3",
+      "version": "1.0.2",
       "restore": {
         "projectUniqueName": "/home/jbmelberg/Documents/Git/Melberg-Framework/Melberg.Infrastructure.MySql/Melberg.Infrastructure.MySql.csproj",
         "projectName": "Melberg.Infrastructure.MySql",

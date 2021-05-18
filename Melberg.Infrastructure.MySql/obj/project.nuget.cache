@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "uTsB5vwXb2Xg3WvqwZa26Z889PNTC+0/RUZWB1QD/5Jki7TutTHrDI4/M1/+W9trQtHw8Ky8GybiXQN0PjqVkw==",
+  "dgSpecHash": "7XctnLu6wKUGMyFYPHLV7rAKQUjbl4HOS5EQXcL5meOU0YuGnV5ZuUdkRWCINCk82CNwVmpVZPxbVLz8LRDRlg==",
   "success": true,
   "projectFilePath": "/home/jbmelberg/Documents/Git/Melberg-Framework/Melberg.Infrastructure.MySql/Melberg.Infrastructure.MySql.csproj",
   "expectedPackageFiles": [
