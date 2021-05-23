@@ -5,7 +5,7 @@ using Melberg.Core.Couchbase;
 
 namespace Melberg.Infrastructure.Couchbase
 {
-    public class CouchClientFactory
+    public class CouchClientFactory : ICouchClientFactory
     {
         private readonly ICouchbaseConnectionStringProvider _connectionStringProvider;
 
@@ -13,8 +13,8 @@ namespace Melberg.Infrastructure.Couchbase
         {
             _connectionStringProvider = connectionStringProvider;
         }
-        
-        public async Task<ICouchbaseCollection> GenerateCouchbaseClientAsync(string bucketName)
+
+        public async Task<ICouchbaseCollection> GenerateCollectionConnectionAsync(string bucketName)
         {
             var config = _connectionStringProvider.GetConfiguration(bucketName);
 

@@ -1,6 +1,7 @@
 using Melberg.Core.Couchbase;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace Melberg.Infrastructure.Couchbase
 {
@@ -15,9 +16,16 @@ namespace Melberg.Infrastructure.Couchbase
 
         public CouchbaseConfiguration GetConfiguration(string bucketName)
         {
-            var value = _configuration.GetSection("Couchbase").GetSection(bucketName).Value;
-            var result = JsonConvert.DeserializeObject<CouchbaseConfiguration>(value);
-            return result;
+            
+            var url = _configuration.GetSection($"Couchbase:{bucketName}:Url").Value;
+            var username = _configuration.GetSection($"Couchbase:{bucketName}:Username").Value;
+            var password = _configuration.GetSection($"Couchbase:{bucketName}:Password").Value;
+            return new CouchbaseConfiguration
+            {
+                Password = password,
+                Url = url,
+                Username = username
+            };
         }
     }
 }
