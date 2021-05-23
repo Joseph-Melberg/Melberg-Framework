@@ -1913,7 +1913,7 @@
           "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
         }
       },
-      "Melberg.Core/1.2.3": {
+      "Melberg.Core/1.0.2": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "compile": {
@@ -6594,7 +6594,7 @@
         "system.xml.xpath.xmldocument.nuspec"
       ]
     },
-    "Melberg.Core/1.2.3": {
+    "Melberg.Core/1.0.2": {
       "type": "project",
       "path": "../Melberg.Core/Melberg.Core.csproj",
       "msbuildProject": "../Melberg.Core/Melberg.Core.csproj"
@@ -6602,7 +6602,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "Melberg.Core >= 1.2.3",
+      "Melberg.Core >= 1.0.2",
       "Microsoft.EntityFrameworkCore >= 3.1.8",
       "MySql.Data.EntityFrameworkCore >= 8.0.21"
     ]
@@ -6611,7 +6611,7 @@
     "/home/jbmelberg/.nuget/packages/": {}
   },
   "project": {
-    "version": "1.2.3",
+    "version": "1.0.2",
     "restore": {
       "projectUniqueName": "/home/jbmelberg/Documents/Git/Melberg-Framework/Melberg.Infrastructure.MySql/Melberg.Infrastructure.MySql.csproj",
       "projectName": "Melberg.Infrastructure.MySql",
