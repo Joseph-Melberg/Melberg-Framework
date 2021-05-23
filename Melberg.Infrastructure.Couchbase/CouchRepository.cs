@@ -5,7 +5,7 @@ namespace Melberg.Infrastructure.Couchbase
 {
     public class CouchRepository 
     {
-        private ICouchbaseCollection Collection;
+        protected ICouchbaseCollection Collection;
         
         public CouchRepository(ICouchClientFactory couchClientFactory, string bucketName)
         {
