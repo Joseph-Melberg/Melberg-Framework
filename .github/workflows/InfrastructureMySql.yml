@@ -38,3 +38,7 @@ jobs:
       run: dotnet pack --configuration Release Melberg.Infrastructure.MySql/Melberg.Infrastructure.MySql.csproj 
     - name: Push Infrastructure.MySql
       run: dotnet nuget push Melberg.Infrastructure.MySql/bin/Release/Melberg.Infrastructure.MySql* --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
+    - name: Pack Melberg.Core
+      run: dotnet pack --configuration Release Melberg.Core/Melberg.Core.csproj 
+    - name: Push Melberg.Core
+      run: dotnet nuget push Melberg.Core/bin/Release/Melberg.Core* --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
