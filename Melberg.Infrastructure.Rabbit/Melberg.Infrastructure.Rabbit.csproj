@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Melberg.Core\Melberg.Core.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>Melberg.Infrastructure.Rabbit</PackageId>
+    <Version>1.0.2</Version>
+    <Authors>Joseph Melberg</Authors>
+    <Company>Inter</Company>
+  </PropertyGroup>
+
+</Project>
