@@ -1,11 +1,11 @@
-using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Melberg.Infrastructure.Rabbit.Consumers
+namespace Melberg.Infrastructure.Rabbit.Services
 {
-    public abstract class StandardConsumer : IStandardConsumer
+    public class StandardRabbitService : IStandardRabbitService
     {
-        private readonly IServiceCollection _catalog;
+        private readonly IServiceCollection _collection;
         public async Task Run()
         {
             //Scrape data
@@ -47,9 +47,7 @@ namespace Melberg.Infrastructure.Rabbit.Consumers
             };
             var consumerTag = channel.BasicConsume(QueueName, false, consumer);
             await Task.Delay(Timeout.Infinite); 
+            
         }
-        public abstract Task ConsumeMessageAsync(string message);
-        
-
     }
 }

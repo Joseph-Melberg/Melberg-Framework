@@ -1,11 +1,17 @@
 using System.Collections.Generic;
 using Melberg.Core.Rabbit.Configurations;
 using Melberg.Core.Rabbit.Configurations.Data;
+using Microsoft.Extensions.Configuration;
 
 namespace Melberg.Infrastructure.Rabbit.Configuration
 {
     public class RabbitConfigurationProvider : IRabbitConfigurationProvider
     {
+        private readonly IConfiguration _configuration;
+        public RabbitConfigurationProvider(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public AmqpObjectsDeclarationConfigData GetAmqpObjectsConfiguration()
         {
             throw new System.NotImplementedException();
@@ -38,7 +44,15 @@ namespace Melberg.Infrastructure.Rabbit.Configuration
 
         AsyncReceiverConfigData IRabbitConfigurationProvider.GetAsyncReceiverConfiguration(string receiverName)
         {
-            throw new System.NotImplementedException();
+            if(receiverName == null)
+            {
+                throw new System.Exception("Reciever Name given");
+            }
+        
+            return new AsyncReceiverConfigData
+            {
+                Connection = Configuration.
+            } 
         }
 
         IEnumerable<ConnectionFactoryConfigData> IRabbitConfigurationProvider.GetConnectionConfigData()
