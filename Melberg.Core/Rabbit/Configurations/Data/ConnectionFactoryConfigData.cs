@@ -10,5 +10,6 @@ namespace Melberg.Core.Rabbit.Configurations.Data
 
         public string Password {get; set;} 
 
+        public string ClientName {get; set;}
     }
 }
