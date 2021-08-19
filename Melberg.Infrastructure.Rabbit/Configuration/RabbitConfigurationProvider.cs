@@ -13,22 +13,8 @@ namespace Melberg.Infrastructure.Rabbit.Configuration
         {
             _configuration = configuration;
         }
-        public AmqpObjectsDeclarationConfigData GetAmqpObjectsConfiguration()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public AsyncReceiverConfigData GetAsyncReceiverConfiguration(string receiverName)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public IEnumerable<ConnectionFactoryConfigData> GetConnectionConfigData()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public ConnectionFactoryConfigData GetConnectionConfigData(string connection)
         {
             throw new System.NotImplementedException();
         }
@@ -38,7 +24,7 @@ namespace Melberg.Infrastructure.Rabbit.Configuration
             throw new System.NotImplementedException();
         }
 
-        AmqpObjectsDeclarationConfigData IRabbitConfigurationProvider.GetAmqpObjectsConfiguration()
+        public AmqpObjectsDeclarationConfigData GetAmqpObjectsConfiguration()
         {
             var result = new AmqpObjectsDeclarationConfigData();
 
@@ -49,7 +35,7 @@ namespace Melberg.Infrastructure.Rabbit.Configuration
             return result;
         }
 
-        AsyncReceiverConfigData IRabbitConfigurationProvider.GetAsyncReceiverConfiguration(string receiverName)
+        public AsyncReceiverConfigData GetAsyncReceiverConfiguration(string receiverName)
         {
             if(receiverName == null)
             {
@@ -73,7 +59,7 @@ namespace Melberg.Infrastructure.Rabbit.Configuration
             throw new System.NotImplementedException();
         }
 
-        ConnectionFactoryConfigData IRabbitConfigurationProvider.GetConnectionConfigData(string connection)
+        public ConnectionFactoryConfigData GetConnectionConfigData(string connection)
         {
             if(connection == null)
             {
@@ -81,11 +67,6 @@ namespace Melberg.Infrastructure.Rabbit.Configuration
             }
 
             return _configuration.GetSection("Rabbit:ClientDeclarations:Connections").Get<ConnectionFactoryConfigData[]>().Where(_ => _.Name == connection).First();
-        }
-
-        PublisherConfigData IRabbitConfigurationProvider.GetPublisherConfiguration(string publisherName)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
