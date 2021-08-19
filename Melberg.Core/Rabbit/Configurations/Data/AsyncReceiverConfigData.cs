@@ -7,9 +7,5 @@ namespace Melberg.Core.Rabbit.Configurations.Data
         public string Connection {get; set;}
 
         public string Queue {get; set;}
-
-        public int MaxThreads {get; set;}
-
-        public int Prefetch {get; set;}
     }
 }
