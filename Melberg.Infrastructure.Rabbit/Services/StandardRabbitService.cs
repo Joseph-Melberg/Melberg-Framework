@@ -21,9 +21,6 @@ namespace Melberg.Infrastructure.Rabbit.Services
         }
         public async Task Run()
         {
-            //Scrape data
-            var QueueName = "Get from file under AsyncRecievers";
-
             var receiverConfig = _configurationProvider.GetAsyncReceiverConfiguration("AsyncRecievers");
 
             var connectionConfig = _configurationProvider.GetConnectionConfigData(receiverConfig.Connection);
@@ -35,13 +32,9 @@ namespace Melberg.Infrastructure.Rabbit.Services
             factory.HostName = connectionConfig.ServerName;
             factory.ClientProvidedName = connectionConfig.ClientName;
 
-            //
             IConnection connection = factory.CreateConnection();
 
-
-
             var channel = connection.CreateModel();
-
 
             var amqpObjects = _configurationProvider.GetAmqpObjectsConfiguration();
 
@@ -57,17 +50,14 @@ namespace Melberg.Infrastructure.Rabbit.Services
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
 
-                 
-                
                 await ConsumeMessageAsync(message);
 
                 channel.BasicAck(ea.DeliveryTag, false);
                 await Task.Yield();
 
             };
-            var consumerTag = channel.BasicConsume(QueueName, false, consumer);
+            var consumerTag = channel.BasicConsume(receiverConfig.Queue, false, consumer);
             await Task.Delay(Timeout.Infinite); 
-            
         }
 
         public Task ConsumeMessageAsync(string message) => _consumer.ConsumeMessageAsync(message);
