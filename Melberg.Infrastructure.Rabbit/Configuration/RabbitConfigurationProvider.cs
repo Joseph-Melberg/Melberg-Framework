@@ -21,7 +21,12 @@ namespace Melberg.Infrastructure.Rabbit.Configuration
 
         public PublisherConfigData GetPublisherConfiguration(string publisherName)
         {
-            throw new System.NotImplementedException();
+            if(publisherName == null)
+            {
+                throw new System.Exception("No Publishername was given");
+            }
+
+            return _configuration.GetSection("Rabbit:ClientDeclarations:Publisher").Get<PublisherConfigData[]>().Where(_ => _.Name == publisherName).FirstOrDefault();
         }
 
         public AmqpObjectsDeclarationConfigData GetAmqpObjectsConfiguration()
