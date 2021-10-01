@@ -46,4 +46,8 @@ jobs:
       run: dotnet pack --configuration Release Melberg.Infrastructure.Rabbit/Melberg.Infrastructure.Rabbit.csproj 
     - name: Push Melberg.Infrastructure.Rabbit
       run: dotnet nuget push Melberg.Infrastructure.Rabbit/bin/Release/Melberg.* --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
+    - name: Pack Melberg.Infrastructure.Redis
+      run: dotnet pack --configuration Release Melberg.Infrastructure.Redis/Melberg.Infrastructure.Redis.csproj 
+    - name: Push Melberg.Infrastructure.Redis
+      run: dotnet nuget push Melberg.Infrastructure.Redis/bin/Release/Melberg.* --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
     
