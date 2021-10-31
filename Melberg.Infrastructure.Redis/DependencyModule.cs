@@ -16,7 +16,7 @@ namespace Melberg.Infrastructure.Redis
 
             catalog.AddTransient<TFrom, TTo>();
 
-            catalog.AddTransient<TContext, TContext>();
+            catalog.AddSingleton<TContext, TContext>();
         }
     }
 }
