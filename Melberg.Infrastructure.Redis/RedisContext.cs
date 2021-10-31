@@ -9,9 +9,11 @@ namespace Melberg.Infrastructure.Redis
         public RedisContext(IRedisConfigurationProvider provider)
         {
             _connection = ConnectionMultiplexer.Connect(provider.GetConnectionString(this.GetType().Name));
+            DB = _connection.GetDatabase();
+
         }
 
-        public IDatabaseAsync DB => _connection.GetDatabase();
 
+        public IDatabaseAsync DB{ get; private set;}
     }
 }
