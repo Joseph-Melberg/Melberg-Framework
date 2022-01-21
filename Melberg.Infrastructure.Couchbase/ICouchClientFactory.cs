@@ -1,10 +1,8 @@
 using System.Threading.Tasks;
 using Couchbase.KeyValue;
 
-namespace Melberg.Infrastructure.Couchbase
+namespace Melberg.Infrastructure.Couchbase;
+public interface ICouchClientFactory
 {
-    public interface ICouchClientFactory
-    {
-        Task<ICouchbaseCollection> GenerateCollectionConnectionAsync(string bucketName);
-    }
+    Task<ICouchbaseCollection> GenerateCollectionConnectionAsync(string bucketName);
 }

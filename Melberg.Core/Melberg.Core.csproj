@@ -4,9 +4,9 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <PackageId>Melberg.Core</PackageId>
-    <Version>1.0.2</Version>
+    <Version>6.0.2</Version>
     <Authors>Joseph Melberg</Authors>
     <Company>Inter</Company>
   </PropertyGroup>

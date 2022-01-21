@@ -1,10 +1,8 @@
 using System.Threading.Tasks;
 
-namespace Melberg.Infrastructure.Rabbit.Consumers
+namespace Melberg.Infrastructure.Rabbit.Consumers;
+public interface IStandardConsumer
 {
-    public interface IStandardConsumer
-    {
-        Task ConsumeMessageAsync(string message);
-        
-    }
+    Task ConsumeMessageAsync(string message);
+    
 }

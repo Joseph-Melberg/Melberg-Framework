@@ -1,7 +1,5 @@
-namespace Melberg.Core.Rabbit.Configurations
+namespace Melberg.Core.Rabbit.Configurations;
+public interface IConsumerConfiguration
 {
-    public interface IConsumerConfiguration
-    {
-        string GetReceiverName();
-    }
+    string GetReceiverName();
 }

@@ -1,7 +1,5 @@
-namespace Melberg.Core.Couchbase
+namespace Melberg.Core.Couchbase;
+public interface ICouchbaseConnectionStringProvider
 {
-    public interface ICouchbaseConnectionStringProvider
-    {
-        CouchbaseConfiguration GetConfiguration(string bucketName);
-    }
+    CouchbaseConfiguration GetConfiguration(string bucketName);
 }

@@ -1,10 +1,7 @@
-namespace Melberg.Core.Rabbit.Configurations.Data
+namespace Melberg.Core.Rabbit.Configurations.Data;
+public enum ExchangeConfigType
 {
-    public enum ExchangeConfigType
-    {
-       Direct = 1,
-       Topic = 2,
-       Fanout = 3 
-        
-    }
+    Direct = 1,
+    Topic = 2,
+    Fanout = 3 
 }

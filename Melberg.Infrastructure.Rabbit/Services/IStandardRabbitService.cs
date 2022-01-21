@@ -1,9 +1,7 @@
 using System.Threading.Tasks;
 
-namespace Melberg.Infrastructure.Rabbit.Services
+namespace Melberg.Infrastructure.Rabbit.Services;
+public interface IStandardRabbitService
 {
-    public interface IStandardRabbitService
-    {
-        Task Run();
-    }
+    Task Run();
 }

@@ -1,12 +1,10 @@
 using Melberg.Core.Rabbit.Configurations;
 
-namespace Melberg.Infrastructure.Rabbit.Configuration
+namespace Melberg.Infrastructure.Rabbit.Configuration;
+public class ConsumerConfiguration : IConsumerConfiguration
 {
-    public class ConsumerConfiguration : IConsumerConfiguration
+    public string GetReceiverName()
     {
-        public string GetReceiverName()
-        {
-            throw new System.NotImplementedException();
-        }
+        throw new System.NotImplementedException();
     }
 }
