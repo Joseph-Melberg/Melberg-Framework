@@ -1,18 +1,16 @@
 using System.Collections.Generic;
 using Melberg.Core.Rabbit.Configurations.Data;
 
-namespace Melberg.Core.Rabbit.Configurations
+namespace Melberg.Core.Rabbit.Configurations;
+public interface IRabbitConfigurationProvider
 {
-    public interface IRabbitConfigurationProvider
-    {
-        IEnumerable<ConnectionFactoryConfigData> GetConnectionConfigData();
+    IEnumerable<ConnectionFactoryConfigData> GetConnectionConfigData();
 
-        ConnectionFactoryConfigData GetConnectionConfigData(string connection);
+    ConnectionFactoryConfigData GetConnectionConfigData(string connection);
 
-        PublisherConfigData GetPublisherConfiguration(string publisherName);
+    PublisherConfigData GetPublisherConfiguration(string publisherName);
 
-        AmqpObjectsDeclarationConfigData GetAmqpObjectsConfiguration();
+    AmqpObjectsDeclarationConfigData GetAmqpObjectsConfiguration();
 
-        AsyncReceiverConfigData GetAsyncReceiverConfiguration(string receiverName);
-    }
+    AsyncReceiverConfigData GetAsyncReceiverConfiguration(string receiverName);
 }

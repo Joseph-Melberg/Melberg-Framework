@@ -1,12 +1,10 @@
-namespace Melberg.Infrastructure.MySql
+namespace Melberg.Infrastructure.MySql;
+public class BaseRepository<TContext>
+    where TContext : DefaultContext
 {
-    public class BaseRepository<TContext>
-        where TContext : DefaultContext
+    protected TContext Context;
+    public BaseRepository(TContext context)
     {
-        protected TContext Context;
-        public BaseRepository(TContext context)
-        {
-            Context = context;
-        }
+        Context = context;
     }
 }

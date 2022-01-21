@@ -1,7 +1,5 @@
-namespace Melberg.Core.MySql
+namespace Melberg.Core.MySql;
+public interface IMySqlConnectionStringProvider
 {
-    public interface IMySqlConnectionStringProvider
-    {
-        string GetConnectionString(string contextName);
-    }
+    string GetConnectionString(string contextName);
 }

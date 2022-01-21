@@ -1,10 +1,5 @@
-using Melberg.Core.Redis;
-
-namespace Melberg.Core.Redis
-
+namespace Melberg.Core.Redis;
+public interface IRedisConfigurationProvider
 {
-    public interface IRedisConfigurationProvider
-    {
-        string GetConnectionString(string connectionStringName);
-    }
+    string GetConnectionString(string connectionStringName);
 }
