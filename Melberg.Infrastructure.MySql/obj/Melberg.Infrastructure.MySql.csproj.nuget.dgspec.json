@@ -5,7 +5,7 @@
   },
   "projects": {
     "/home/jbmelberg/Documents/Git/Melberg-Framework/Melberg.Core/Melberg.Core.csproj": {
-      "version": "6.0.2",
+      "version": "1.0.2",
       "restore": {
         "projectUniqueName": "/home/jbmelberg/Documents/Git/Melberg-Framework/Melberg.Core/Melberg.Core.csproj",
         "projectName": "Melberg.Core",
@@ -110,9 +110,13 @@
               "target": "Package",
               "version": "[6.0.0, )"
             },
-            "MySql.Data.EntityFrameworkCore": {
+            "MySqlConnector": {
               "target": "Package",
-              "version": "[8.0.21, )"
+              "version": "[2.1.2, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[6.0.0, )"
             }
           },
           "imports": [

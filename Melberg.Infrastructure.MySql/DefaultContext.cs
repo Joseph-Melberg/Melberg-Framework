@@ -16,7 +16,7 @@ public class DefaultContext : DbContext
     {
         var connectionString = _connectionStringProvider.GetConnectionString(this.GetType().Name)
             ?? throw new Exception($"Unable to find connection string: {this.GetType().Name}");
-        optionsBuilder.UseMySQL(connectionString, builder => {});
+        optionsBuilder.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString));
     }
 
     //Not really sure why this isn't implemented correctly in the first place
