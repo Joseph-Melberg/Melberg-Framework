@@ -22,7 +22,7 @@ class Program
         RabbitModule.RegisterPublisher<TestMessage>(services);
         _serviceProvider = services.BuildServiceProvider();
         var publisher = _serviceProvider.GetRequiredService<IStandardPublisher<TestMessage>>();
-        publisher.Send(new TestMessage());
+        publisher.Send(new TestMessage(){Value = "Howdy"});
     }
 
     private static void DisposeServices()

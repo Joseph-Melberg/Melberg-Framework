@@ -2,10 +2,8 @@ using Melberg.Infrastructure.Rabbit.Messages;
 
 namespace Demo.RabbitPublisher;
 
-public class TestMessage : IStandardMessage
+public class TestMessage : StandardMessage
 {
-    public string Body => "Body";
-
-
-    public string GetRoutingKey() => "test";
+    public string Value {get; set;}
+    public override string GetRoutingKey() => "test";
 }

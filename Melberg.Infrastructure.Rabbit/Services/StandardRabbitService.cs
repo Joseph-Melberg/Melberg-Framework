@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Melberg.Core.Rabbit.Configurations;
 using Melberg.Infrastructure.Rabbit.Configuration;
 using Melberg.Infrastructure.Rabbit.Consumers;
+using Melberg.Infrastructure.Rabbit.Messages;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -39,8 +40,13 @@ public class StandardRabbitService : IStandardRabbitService
         consumer.Received += async (ch, ea) =>
         {
         
-            var body = ea.Body.ToArray();
-            var message = Encoding.UTF8.GetString(body);
+            var message = new Message()
+            {
+                RoutingKey = ea.RoutingKey,
+                Headers = ea.BasicProperties.Headers,
+                Body = ea.Body.ToArray()
+            };
+
 
             await ConsumeMessageAsync(message);
 
@@ -52,5 +58,5 @@ public class StandardRabbitService : IStandardRabbitService
         await Task.Delay(Timeout.Infinite); 
     }
 
-    public Task ConsumeMessageAsync(string message) => _consumer.ConsumeMessageAsync(message);
+    public Task ConsumeMessageAsync(Message message) => _consumer.ConsumeMessageAsync(message);
 }
