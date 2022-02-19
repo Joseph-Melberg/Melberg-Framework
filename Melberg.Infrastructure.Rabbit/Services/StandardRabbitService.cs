@@ -23,15 +23,8 @@ public class StandardRabbitService : IStandardRabbitService
         var receiverConfig = _configurationProvider.GetAsyncReceiverConfiguration("AsyncRecievers");
 
         var connectionConfig = _configurationProvider.GetConnectionConfigData(receiverConfig.Connection);
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.UserName = connectionConfig.UserName;
-        factory.Password = connectionConfig.Password;
-        factory.VirtualHost = "/";
-        factory.DispatchConsumersAsync = true;
-        factory.HostName = connectionConfig.ServerName;
-        factory.ClientProvidedName = connectionConfig.ClientName;
-
-        IConnection connection = factory.CreateConnection();
+        var connectionFactory = new StandardConnectionFactory(connectionConfig);
+        IConnection connection = connectionFactory.GetConnection();
 
         var channel = connection.CreateModel();
 
