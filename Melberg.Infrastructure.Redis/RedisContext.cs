@@ -9,18 +9,15 @@ public class RedisContext
     private ConnectionMultiplexer _connection;
     public RedisContext(IRedisConfigurationProvider provider)
     {
-        try
+        string connectionString = null;
+        connectionString = provider.GetConnectionString(this.GetType().Name);
+        if(string.IsNullOrEmpty(connectionString))
         {
-            var w = 3;    
-            Console.WriteLine(provider.GetConnectionString(this.GetType().Name));
-            _connection = ConnectionMultiplexer.Connect(provider.GetConnectionString(this.GetType().Name));
-            DB = _connection.GetDatabase();
+            throw new Exception($"Connection string for {this.GetType().Name} is missing");
         }
-        catch(Exception ex)
-        {
-            var j = 3;
-        }
-
+        
+        _connection = ConnectionMultiplexer.Connect(provider.GetConnectionString(this.GetType().Name));
+        DB = _connection.GetDatabase();
     }
 
     public IDatabaseAsync DB{ get; private set;}

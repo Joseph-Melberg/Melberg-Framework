@@ -20,7 +20,13 @@ public class RabbitConfigurationProvider : IRabbitConfigurationProvider
 
     public PublisherConfigData GetPublisherConfiguration(string publisherName)
     {
-        throw new System.NotImplementedException();
+        if(publisherName == null)
+        {
+            throw new System.Exception("Reciever Name not given");
+        }
+        return _configuration
+        .GetSection("Rabbit:ClientDeclarations:Publishers").Get<PublisherConfigData[]>()
+        .Where(_ => _.Name == publisherName).First();
     }
 
     public AmqpObjectsDeclarationConfigData GetAmqpObjectsConfiguration()
