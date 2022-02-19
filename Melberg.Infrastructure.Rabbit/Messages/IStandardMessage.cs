@@ -1,7 +1,9 @@
+using System.Collections.Generic;
+
 namespace Melberg.Infrastructure.Rabbit.Messages;
 
 public interface IStandardMessage
 {
-    string Body {get;}
+    IDictionary<string, object> GetHeaders();
     string GetRoutingKey();
 }
