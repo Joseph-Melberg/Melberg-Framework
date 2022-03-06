@@ -1,0 +1,1 @@
+namespace Melberg.Infrastructure.InfluxDB;

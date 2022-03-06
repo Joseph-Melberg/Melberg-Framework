@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+		<PackageId>Melberg.Infrastructure.InfluxDB</PackageId>
+		<Version>1.0.2</Version>
+		<Authors>Joseph Melberg</Authors>
+		<Company>Inter</Company>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="InfluxDB.Client" Version="3.3.0" />
+  </ItemGroup>
+
+</Project>
