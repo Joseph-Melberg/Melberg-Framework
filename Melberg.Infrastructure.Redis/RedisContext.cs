@@ -15,10 +15,19 @@ public class RedisContext
         {
             throw new Exception($"Connection string for {this.GetType().Name} is missing");
         }
+        _connection = ConnectionMultiplexer.Connect(connectionString);
         
-        _connection = ConnectionMultiplexer.Connect(provider.GetConnectionString(this.GetType().Name));
         DB = _connection.GetDatabase();
+        //StackExchange had to have a good reason to think that this was how 
+        //their code should work.
+
+        //I am unaware of thier reasoning, I do not understand why this must
+        //be done.
+        var serverSelector = connectionString.Split(',')[0];
+
+        Server = _connection.GetServer(serverSelector);
     }
 
+    public IServer Server {get; private set;}
     public IDatabaseAsync DB{ get; private set;}
 }

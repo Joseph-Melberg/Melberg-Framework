@@ -18,6 +18,7 @@ namespace Demo.Redis
             var repo =  _serviceProvider.GetRequiredService<ITestRepo>();
             await repo.Set("a");
             await repo.Get("a");
+            repo.ListKeys();
             DisposeServices();
         }
 
