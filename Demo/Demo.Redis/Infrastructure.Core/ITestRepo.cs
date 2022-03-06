@@ -7,5 +7,7 @@ namespace Demo.Redis.Infrastructure.Core
         Task<string> Get(string value);
         
         Task Set(string value);
+
+        void ListKeys();
     }
 }
