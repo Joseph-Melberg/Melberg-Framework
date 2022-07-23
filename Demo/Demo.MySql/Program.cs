@@ -17,6 +17,7 @@ class Program
         RegisterServices();
         var repo =  _serviceProvider.GetRequiredService<ITestRepository>();
         var j = repo.Get();
+        repo.Test();
         DisposeServices();
     }
 
