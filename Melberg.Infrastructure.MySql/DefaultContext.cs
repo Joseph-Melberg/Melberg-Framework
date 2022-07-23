@@ -16,9 +16,11 @@ public class DefaultContext : DbContext
     {
         var connectionString = _connectionStringProvider.GetConnectionString(this.GetType().Name)
             ?? throw new Exception($"Unable to find connection string: {this.GetType().Name}");
-        optionsBuilder.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString));
+        optionsBuilder
+                    .UseMySql(connectionString,ServerVersion.AutoDetect(connectionString))
+                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     }
-
+/*
     //Not really sure why this isn't implemented correctly in the first place
     public override EntityEntry<TEntity> Update<TEntity>(TEntity entity) where TEntity : class
     {
@@ -48,4 +50,5 @@ public class DefaultContext : DbContext
         Entry(originalEntity).CurrentValues.SetValues(entity);
         return Entry((TEntity)originalEntity);
     }
+    */
 }

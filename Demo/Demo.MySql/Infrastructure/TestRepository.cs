@@ -8,4 +8,21 @@ public class TestRepository : BaseRepository<ReadWriteContext>, ITestRepository
     {
         return Context.Heartbeats.Count();
     }
+    public void Test()
+    {
+        var j = Context.Heartbeats.First(_ => _.name == "skywatcher");
+        var k = new HeartbeatModel()
+        {
+            announced = false,
+            mac = j.mac,
+            name = j.name,
+            online = j.online,
+            timestamp = j.timestamp
+        };
+
+        Context.Update(k);
+        Context.SaveChanges();
+        var l = Context.Heartbeats.First(_ => _.name == "skywatcher");
+
+    }
 }
