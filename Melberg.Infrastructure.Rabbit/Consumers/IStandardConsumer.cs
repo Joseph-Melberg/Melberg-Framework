@@ -5,5 +5,5 @@ using Melberg.Infrastructure.Rabbit.Messages;
 namespace Melberg.Infrastructure.Rabbit.Consumers;
 public interface IStandardConsumer
 {
-    Task ConsumeMessageAsync(Message message);
+    Task ConsumeMessageAsync(Message message, CancellationToken ct);
 }

@@ -58,7 +58,7 @@ public class RabbitService : BackgroundService
             };
 
 
-            await ConsumeMessageAsync(message);
+            await ConsumeMessageAsync(message, cancellationToken);
 
             channel.BasicAck(ea.DeliveryTag, false);
             await Task.Yield();
@@ -68,7 +68,7 @@ public class RabbitService : BackgroundService
         return Task.Delay(Timeout.Infinite, cancellationToken); 
     }
 
-    public Task ConsumeMessageAsync(Message message) => _consumer.ConsumeMessageAsync(message);
+    public Task ConsumeMessageAsync(Message message, CancellationToken cancellationToken) => _consumer.ConsumeMessageAsync(message, cancellationToken);
 
     public override bool Equals(object obj)
     {

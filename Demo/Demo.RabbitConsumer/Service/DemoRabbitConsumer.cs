@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Demo.RabbitConsumer.Messages;
 using Melberg.Infrastructure.Rabbit.Consumers;
@@ -16,7 +17,7 @@ namespace Demo.RabbitConsumer.Service
         {
             _translator = translator;
         }
-        public Task ConsumeMessageAsync(Message message)
+        public Task ConsumeMessageAsync(Message message, CancellationToken ct)
         {
             Console.WriteLine(message);
             var result = _translator.Translate(message);
