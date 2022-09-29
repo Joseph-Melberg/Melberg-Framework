@@ -58,4 +58,7 @@ jobs:
       run: dotnet pack --configuration Release Melberg.Infrastructure.InfluxDB/Melberg.Infrastructure.InfluxDB.csproj 
     - name: Push Melberg.Infrastructure.InfluxDB
       run: dotnet nuget push Melberg.Infrastructure.InfluxDB/bin/Release/Melberg.Infrastructure.InfluxDB* --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
-    
+    - name: Pack Melberg.Application
+      run: dotnet pack --configuration Release Melberg.Application/Melberg.Application.csproj
+    - name: Push Melberg.Application
+      run: dotnet nuget push Melberg.Application/bin/Release/Melberg.* --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
