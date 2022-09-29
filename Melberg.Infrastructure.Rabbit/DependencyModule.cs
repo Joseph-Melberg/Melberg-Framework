@@ -16,7 +16,7 @@ namespace Melberg.Infrastructure.Rabbit
             catalog.AddTransient<IStandardRabbitService,StandardRabbitService>();
             catalog.AddTransient<IStandardConsumer,TConsumer>();
             catalog.AddSingleton<IRabbitConfigurationProvider,RabbitConfigurationProvider>();
-            
+            catalog.AddHostedService<RabbitService>();
         }
 
         public static void RegisterPublisher<TMessage>(IServiceCollection catalog)
