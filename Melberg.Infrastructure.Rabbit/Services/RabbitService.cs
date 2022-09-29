@@ -1,25 +1,35 @@
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Melberg.Core.Rabbit.Configurations;
 using Melberg.Infrastructure.Rabbit.Configuration;
 using Melberg.Infrastructure.Rabbit.Consumers;
 using Melberg.Infrastructure.Rabbit.Messages;
+using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Melberg.Infrastructure.Rabbit.Services;
+namespace Melberg.Infrastructure.Rabbit;
 
-public class StandardRabbitService : IStandardRabbitService
+public class RabbitService : BackgroundService
 {
+
     private readonly IStandardConsumer _consumer;
     private readonly IRabbitConfigurationProvider _configurationProvider;
-    public StandardRabbitService(IStandardConsumer consumer, IRabbitConfigurationProvider configurationProvider)
+
+    public override Task ExecuteTask => base.ExecuteTask;
+
+    public RabbitService(IStandardConsumer consumer, IRabbitConfigurationProvider configurationProvider)
     {
         _consumer = consumer;    
         _configurationProvider = configurationProvider;
     }
-    public async Task Run()
+
+    public void Dispose()
+    {
+        this.Dispose();
+    }
+
+    public override Task StartAsync(CancellationToken cancellationToken)
     {
         var receiverConfig = _configurationProvider.GetAsyncReceiverConfiguration("AsyncRecievers");
 
@@ -48,15 +58,25 @@ public class StandardRabbitService : IStandardRabbitService
             };
 
 
-            await ConsumeMessageAsync(message);
+            await ConsumeMessageAsync(message, cancellationToken);
 
             channel.BasicAck(ea.DeliveryTag, false);
             await Task.Yield();
 
         };
         var consumerTag = channel.BasicConsume(receiverConfig.Queue, false, consumer);
-        await Task.Delay(Timeout.Infinite); 
+        return Task.Delay(Timeout.Infinite, cancellationToken); 
     }
 
-    public Task ConsumeMessageAsync(Message message) => _consumer.ConsumeMessageAsync(message);
+    public Task ConsumeMessageAsync(Message message, CancellationToken cancellationToken) => _consumer.ConsumeMessageAsync(message, cancellationToken);
+
+    public override bool Equals(object obj)
+    {
+        return base.Equals(obj);
+    }
+
+    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        throw new System.NotImplementedException();
+    }
 }

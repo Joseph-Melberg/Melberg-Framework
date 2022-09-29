@@ -8,7 +8,7 @@ namespace Demo.RabbitConsumer;
 
 public class Register
 {
-    public static ServiceCollection RegisterServices(ServiceCollection services)
+    public static IServiceCollection RegisterServices(IServiceCollection services)
     {
         RabbitModule.RegisterConsumer<DemoRabbitConsumer>(services);
         services.AddTransient<IJsonToObjectTranslator<TestMessage>,JsonToObjectTranslator<TestMessage>>();
