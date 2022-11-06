@@ -5,6 +5,7 @@ using Melberg.Infrastructure.Rabbit.Configuration;
 using Melberg.Infrastructure.Rabbit.Consumers;
 using Melberg.Infrastructure.Rabbit.Messages;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -14,13 +15,15 @@ public class RabbitService : BackgroundService
 {
 
     private readonly IStandardConsumer _consumer;
+    private readonly ILogger _logger;
     private readonly IRabbitConfigurationProvider _configurationProvider;
 
     public override Task ExecuteTask => base.ExecuteTask;
 
-    public RabbitService(IStandardConsumer consumer, IRabbitConfigurationProvider configurationProvider)
+    public RabbitService(IStandardConsumer consumer, IRabbitConfigurationProvider configurationProvider, ILogger logger)
     {
         _consumer = consumer;    
+        _logger = logger;
         _configurationProvider = configurationProvider;
     }
 
@@ -31,6 +34,7 @@ public class RabbitService : BackgroundService
 
     public override Task StartAsync(CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Beginning Rabbit");
         var receiverConfig = _configurationProvider.GetAsyncReceiverConfiguration("AsyncRecievers");
 
         var connectionConfig = _configurationProvider.GetConnectionConfigData(receiverConfig.Connection);
@@ -41,9 +45,10 @@ public class RabbitService : BackgroundService
 
         var amqpObjects = _configurationProvider.GetAmqpObjectsConfiguration();
 
-        channel.ConfigureExchanges(connectionConfig.Name,amqpObjects.ExchangeList);
-        channel.ConfigureQueues(connectionConfig.Name,amqpObjects.QueueList);
-        channel.ConfigureBindings(connectionConfig.Name,amqpObjects.BindingList);
+
+        channel.ConfigureExchanges(connectionConfig.Name,amqpObjects.ExchangeList, _logger);
+        channel.ConfigureQueues(connectionConfig.Name,amqpObjects.QueueList, _logger);
+        channel.ConfigureBindings(connectionConfig.Name,amqpObjects.BindingList, _logger);
         //foreach ...
         var consumer = new AsyncEventingBasicConsumer(channel);
 
@@ -57,7 +62,6 @@ public class RabbitService : BackgroundService
                 Body = ea.Body.ToArray()
             };
 
-
             await ConsumeMessageAsync(message, cancellationToken);
 
             channel.BasicAck(ea.DeliveryTag, false);
@@ -69,11 +73,6 @@ public class RabbitService : BackgroundService
     }
 
     public Task ConsumeMessageAsync(Message message, CancellationToken cancellationToken) => _consumer.ConsumeMessageAsync(message, cancellationToken);
-
-    public override bool Equals(object obj)
-    {
-        return base.Equals(obj);
-    }
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
