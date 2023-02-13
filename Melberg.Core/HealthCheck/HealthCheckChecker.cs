@@ -10,13 +10,14 @@ public class HealthCheckChecker : IHealthCheckChecker
     private readonly IEnumerable<IHealthCheck> _healthsCheck;
     public HealthCheckChecker(IEnumerable<IHealthCheck> healthsCheck)
     {
-        _healthsCheck = healthsCheck;
+        //I will make a better system, this weeds out the duplicates
+        _healthsCheck = healthsCheck.DistinctBy(_ => _.Name); 
     }
     public async Task<bool> IsOk()
     {
         var waitTask = Task.Delay(5000);
 
-        var healths = _healthsCheck.DistinctBy(_ => _.Name).Select(_ => _.IsOk(System.Threading.CancellationToken.None));
+        var healths = _healthsCheck.Select(_ => _.IsOk(System.Threading.CancellationToken.None));
         var healthsCheckTask = Task.WhenAll(healths);
 
         await Task.WhenAny(waitTask,healthsCheckTask);

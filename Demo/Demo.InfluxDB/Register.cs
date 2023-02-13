@@ -10,7 +10,6 @@ namespace Demo.InfluxDB
 
         public static ServiceCollection RegisterServices(ServiceCollection services)
         {
-            InfluxDBModule.LoadInfluxDBRepository<ITestRepo,TestRepo,TestInfluxDBContext>(services);
             return services;
         }
     }

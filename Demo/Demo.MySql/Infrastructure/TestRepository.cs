@@ -1,3 +1,4 @@
+using System.Linq;
 using Melberg.Infrastructure.MySql;
 namespace Demo.MySql.Infrastructure;
 

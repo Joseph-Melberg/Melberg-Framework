@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Melberg.Infrastructure.InfluxDB\Melberg.Infrastructure.InfluxDB.csproj" />
+    <ProjectReference Include="..\..\Melberg.Application\Melberg.Application.csproj" />
     <ProjectReference Include="..\..\Melberg.Core\Melberg.Core.csproj" />
   </ItemGroup>
 

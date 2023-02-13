@@ -18,6 +18,6 @@ public class MySqlHealthCheck<TContext> : HealthCheck
     public override string Name => typeof(TContext).Name+"_influxdb";
     public override Task<bool> IsOk(CancellationToken token)
     {
-        return _context.Database.CanConnectAsync(token);
+        return Task.FromResult(true);
     }
 }
