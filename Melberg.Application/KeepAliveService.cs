@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -6,19 +7,10 @@ using Microsoft.Extensions.Hosting;
 
 namespace Melberg.Application;
 
-public class KeepAliveService : IHostedService
+public class KeepAliveService : BackgroundService
 {
-    public KeepAliveService() { }
-
-
-    public Task StartAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-       return Task.Delay(-1,cancellationToken); 
-    }
-
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        throw new System.NotImplementedException();
+        await Task.Delay(Timeout.Infinite,CancellationToken.None);
     }
 }

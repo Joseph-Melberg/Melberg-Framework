@@ -5,5 +5,5 @@ namespace Demo.InfluxDB.Infrastructure;
 
 public class TestInfluxDBContext : DefaultContext
 {
-    public TestInfluxDBContext(IInfluxDBConfigurationProvider configurationProvider) : base(configurationProvider) { }
+    public TestInfluxDBContext(IStandardInfluxDBClientFactory factory) : base(factory) { }
 }

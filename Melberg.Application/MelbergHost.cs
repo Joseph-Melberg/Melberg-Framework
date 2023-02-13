@@ -1,5 +1,10 @@
 using System;
 using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Melberg.Application.Health;
+using Melberg.Core.Health;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -34,9 +39,18 @@ public static class MelbergHost
             s.AddSingleton<ILogger>(logger);
             sup.ConfigureServices(s);
 
+            s.AddHostedService<HealthCheckBackgroundService>();
+            s.AddSingleton<IHealthCheckChecker,HealthCheckChecker>();
             s.AddSingleton(sup);
         }
         );
 
+    }
+
+    public static async Task Begin(this IHost host, CancellationToken token) 
+    {
+        var tasks  = host.Services.GetServices<IHostedService>();
+        var tasksToRun = tasks.Select(_ => Task.Run(()=> _.StartAsync(token)));
+        await Task.WhenAll(Task.WhenAll(tasksToRun),  Task.Delay(Timeout.Infinite));
     }
 }

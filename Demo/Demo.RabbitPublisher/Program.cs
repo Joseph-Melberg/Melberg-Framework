@@ -1,4 +1,5 @@
-﻿using Melberg.Infrastructure.Rabbit;
+﻿using Melberg.Application;
+using Melberg.Infrastructure.Rabbit;
 using Melberg.Infrastructure.Rabbit.Publishers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,19 +11,12 @@ class Program
     public static IConfigurationRoot configuration;
     private static IServiceProvider _serviceProvider;
 
-    public static void Main()
+    public static async Task Main()
     {
-        var services = new ServiceCollection();
-        configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
-            .AddJsonFile("appsettings.json", false)
-            .Build();
-
-        services.AddSingleton<IConfiguration>(configuration);
-        RabbitModule.RegisterPublisher<TestMessage>(services);
-        _serviceProvider = services.BuildServiceProvider();
-        var publisher = _serviceProvider.GetRequiredService<IStandardPublisher<TestMessage>>();
-        publisher.Send(new TestMessage(){Value = "Howdy"});
+        var host = MelbergHost.CreateDefaultApp<Startup>().Build();
+        // var publisher = host.Services.GetRequiredService<IStandardPublisher<TestMessage>>();
+        // publisher.Send(new TestMessage(){Value = "Howdy"});
+        await host.Begin(CancellationToken.None);
     }
 
     private static void DisposeServices()

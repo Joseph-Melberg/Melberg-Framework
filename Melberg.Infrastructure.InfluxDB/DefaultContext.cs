@@ -13,15 +13,9 @@ namespace Melberg.Infrastructure.InfluxDB;
 public class DefaultContext
 {
     private readonly WriteApiAsync WriteApi;
-    private readonly IInfluxDBConfigurationProvider _configurationProvider;
-    public DefaultContext(IInfluxDBConfigurationProvider configurationProvider)
+    public DefaultContext( IStandardInfluxDBClientFactory factory)
     {
-        _configurationProvider = configurationProvider;
-
-        var connectionString = configurationProvider.GetConnectionString(this.GetType().Name)
-        ?? throw new MissingConnectionStringException($"Unable to find connection string: {this.GetType().Name}");
-
-        WriteApi = InfluxDBClientFactory.Create(connectionString).GetWriteApiAsync();
+        WriteApi = factory.GetClient(this.GetType().Name).GetWriteApiAsync();
     }
 
     public async Task WritePointAsync(InfluxDBDataModel model, string bucket, string org_id)

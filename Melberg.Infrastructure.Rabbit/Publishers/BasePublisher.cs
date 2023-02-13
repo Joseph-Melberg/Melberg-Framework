@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using Melberg.Core.Rabbit.Configurations;
 using Melberg.Core.Rabbit.Configurations.Data;
-using Melberg.Infrastructure.Rabbit.Configuration;
+using Melberg.Infrastructure.Rabbit.Factory;
 using Melberg.Infrastructure.Rabbit.Messages;
 using RabbitMQ.Client;
 
@@ -20,7 +20,7 @@ public abstract class BasePublisher<TMessage> : IDisposable
             {
                 try
                 {
-                    _channel = _connectionFactory.GetConnection().CreateModel();
+                    _channel = _connectionFactory.GetPublisherChannel(typeof(TMessage).Name).CreateModel();
                 }
                 catch (System.Exception)
                 {
@@ -30,15 +30,14 @@ public abstract class BasePublisher<TMessage> : IDisposable
             return _channel;
         }
     }
-    private readonly StandardConnectionFactory _connectionFactory;
+    private readonly IStandardConnectionFactory _connectionFactory;
     private readonly PublisherConfigData _config;
     private bool _disposed;
 
     public BasePublisher(IRabbitConfigurationProvider configurationProvider)
     {
         _config = configurationProvider.GetPublisherConfiguration(typeof(TMessage).Name);
-        var connectionConfig = configurationProvider.GetConnectionConfigData(_config.Connection);
-        _connectionFactory = new StandardConnectionFactory(connectionConfig);
+        _connectionFactory = new StandardConnectionFactory(configurationProvider);
     }
 
     public void Dispose()
