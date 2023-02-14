@@ -1,4 +1,6 @@
+using Melberg.Core.Health;
 using Melberg.Core.MySql;
+using Melberg.Infrastructure.MySql.Health;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Melberg.Infrastructure.MySql;
@@ -14,5 +16,7 @@ public class MySqlModule
         catalog.AddTransient<TFrom, TTo>();
 
         catalog.AddTransient<TContext, TContext>();
+
+        catalog.AddTransient<IHealthCheck,MySqlHealthCheck<TContext>>();
     }
 }

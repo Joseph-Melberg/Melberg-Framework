@@ -1,4 +1,6 @@
+using Melberg.Core.Health;
 using Melberg.Core.InfluxDB;
+using Melberg.Infrastructure.InfluxDB.Health;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Melberg.Infrastructure.InfluxDB;
@@ -15,5 +17,9 @@ public class InfluxDBModule
             catalog.AddTransient<TFrom, TTo>();
         
             catalog.AddTransient<TContext, TContext>();
+
+            catalog.AddSingleton<IStandardInfluxDBClientFactory, StandardInfluxDBClientFactory>();
+
+            catalog.AddSingleton<IHealthCheck, InfluxDBHealthCheck<TContext>>();
         }
 }
