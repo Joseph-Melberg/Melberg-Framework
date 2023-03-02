@@ -20,6 +20,6 @@ public class RabbitConsumerHealthCheck : HealthCheck
     public override string Name => "rabbitconsumer";
     public override Task<bool> IsOk(CancellationToken token)
     {
-        return Task.FromResult(!_connection.IsOpen);    
+        return Task.FromResult(_connection.IsOpen);    
     }
 }

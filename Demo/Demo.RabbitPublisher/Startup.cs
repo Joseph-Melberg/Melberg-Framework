@@ -11,6 +11,7 @@ public class Startup : IAppStartup
     public void ConfigureServices(IServiceCollection services)
     {
         RabbitModule.RegisterPublisher<TestMessage>(services);
+        RabbitModule.RegisterPublisher<TestMessage2>(services);
         services.AddHostedService<KeepAliveService>();
         services.AddHostedService<KeepAliveService>();
         services.AddHostedService<KeepAliveService>();

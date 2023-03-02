@@ -27,7 +27,7 @@ public static class MelbergHost
                             .AddConsole()).BuildServiceProvider())
             .ConfigureAppConfiguration((conf) => conf
                 .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
-                .AddJsonFile("appsettings.json", false)
+                .AddJsonFile("appsettings.json", true, reloadOnChange: false)
                 .Build())
             .ConfigureServices((hbc, s) => 
         {
