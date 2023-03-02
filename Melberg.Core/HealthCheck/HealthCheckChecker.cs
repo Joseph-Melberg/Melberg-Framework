@@ -11,7 +11,7 @@ public class HealthCheckChecker : IHealthCheckChecker
     public HealthCheckChecker(IEnumerable<IHealthCheck> healthsCheck)
     {
         //I will make a better system, this weeds out the duplicates
-        _healthsCheck = healthsCheck.DistinctBy(_ => _.Name); 
+        _healthsCheck = healthsCheck.DistinctBy(_ => _.Name).ToList(); 
     }
     public async Task<bool> IsOk()
     {
