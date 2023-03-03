@@ -75,15 +75,7 @@ public class HealthCheckBackgroundService : BackgroundService
                     resp.ContentLength64 = buffer.Length;
 
                     using Stream ros = resp.OutputStream;
-                    try
-
-                    {
-                        ros.Write(buffer, 0, buffer.Length);
-                    }
-                    catch(Exception ex)
-                    {
-                        throw ex;
-                    }
+                    ros.Write(buffer, 0, buffer.Length);
                 }
                 listener.Stop();
             };
