@@ -12,9 +12,5 @@ public class Startup : IAppStartup
     {
         RabbitModule.RegisterPublisher<TestMessage>(services);
         RabbitModule.RegisterPublisher<TestMessage2>(services);
-        services.AddHostedService<KeepAliveService>();
-        services.AddHostedService<KeepAliveService>();
-        services.AddHostedService<KeepAliveService>();
-        services.AddHostedService<KeepAliveService>();
     }
 }
