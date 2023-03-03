@@ -17,7 +17,6 @@ public class Startup : IAppStartup
     {
         RabbitModule.RegisterConsumer<DemoRabbitConsumer>(services);
         services.AddHostedService<Test>();
-        ApplicationModule.AddKeepAlive(services);
         Register.RegisterServices(services);
     }
 
