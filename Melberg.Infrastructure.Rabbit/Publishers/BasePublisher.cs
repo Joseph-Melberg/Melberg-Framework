@@ -4,6 +4,7 @@ using Melberg.Core.Rabbit.Configurations;
 using Melberg.Core.Rabbit.Configurations.Data;
 using Melberg.Infrastructure.Rabbit.Factory;
 using Melberg.Infrastructure.Rabbit.Messages;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 
 namespace Melberg.Infrastructure.Rabbit.Publishers;
@@ -34,10 +35,10 @@ public abstract class BasePublisher<TMessage> : IDisposable
     private readonly PublisherConfigData _config;
     private bool _disposed;
 
-    public BasePublisher(IRabbitConfigurationProvider configurationProvider)
+    public BasePublisher(IRabbitConfigurationProvider configurationProvider, ILogger logger)
     {
         _config = configurationProvider.GetPublisherConfiguration(typeof(TMessage).Name);
-        _connectionFactory = new StandardConnectionFactory(configurationProvider);
+        _connectionFactory = new StandardConnectionFactory(configurationProvider, logger);
     }
 
     public void Dispose()
