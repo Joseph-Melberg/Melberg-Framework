@@ -1,6 +1,8 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Melberg.Core.Rabbit.Configurations;
 using Melberg.Core.Rabbit.Configurations.Data;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 
 namespace Melberg.Infrastructure.Rabbit.Factory;
@@ -8,14 +10,18 @@ namespace Melberg.Infrastructure.Rabbit.Factory;
 public class StandardConnectionFactory : IStandardConnectionFactory
 {
     private readonly IRabbitConfigurationProvider _configurationProvider;
-    private IConnection _consumerConnection;
+    private readonly ILogger _logger;
+    private static IModel _consumerChannel;
 
-    private Dictionary<string,IConnection> _publisherConnections = new Dictionary<string, IConnection>();
-    public StandardConnectionFactory(IRabbitConfigurationProvider configurationProvider)
+    private static ConcurrentDictionary<string,IConnection> _publisherConnections = new ConcurrentDictionary<string, IConnection>();
+    public StandardConnectionFactory(
+        IRabbitConfigurationProvider configurationProvider,
+        ILogger logger)
     {
+        _logger = logger;
         _configurationProvider = configurationProvider;
     }
-    private IConnection GenerateConsumerChannel()
+    private IConnection GenerateConsumerConnection()
     {
         var receiverConfig = _configurationProvider.GetAsyncReceiverConfiguration("AsyncRecievers");
         var connectionConfig = _configurationProvider.GetConnectionConfigData(receiverConfig.Connection);
@@ -29,13 +35,15 @@ public class StandardConnectionFactory : IStandardConnectionFactory
         return MakeNewConnection(connectionConfig);
     }
 
-    public IConnection GetConsumerChannel()
+    public IModel GetConsumerModel()
     {
-        if(_consumerConnection == null)    
+        if(_consumerChannel == null)    
         {
-            _consumerConnection = GenerateConsumerChannel();
+            _logger.LogInformation($"Consumer channel created.");
+            _consumerChannel = GenerateConsumerConnection().CreateModel();
         }
-        return _consumerConnection;
+        _logger.LogInformation($"Consumer channel acquired.");
+        return _consumerChannel;
     }
 
     private IConnection MakeNewConnection(ConnectionFactoryConfigData connectionConfig)
@@ -52,10 +60,6 @@ public class StandardConnectionFactory : IStandardConnectionFactory
 
     public IConnection GetPublisherChannel(string name)
     {
-        if(!_publisherConnections.ContainsKey(name))
-        {
-            _publisherConnections.Add(name,GeneratePublisherChannel(name));
-        }
-        return _publisherConnections[name];
+        return _publisherConnections.GetOrAdd(name, GeneratePublisherChannel(name));
     }
 }

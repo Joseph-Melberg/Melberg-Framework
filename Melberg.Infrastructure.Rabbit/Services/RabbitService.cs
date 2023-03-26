@@ -47,8 +47,8 @@ public class RabbitService : BackgroundService
         var receiverConfig = _configurationProvider.GetAsyncReceiverConfiguration("AsyncRecievers");
 
         var connectionConfig = _configurationProvider.GetConnectionConfigData(receiverConfig.Connection);
-        IConnection connection = _connectionFactory.GetConsumerChannel();
-        var channel = connection.CreateModel();
+        var channel = _connectionFactory.GetConsumerModel();
+
         var amqpObjects = _configurationProvider.GetAmqpObjectsConfiguration();
 
 
@@ -57,8 +57,8 @@ public class RabbitService : BackgroundService
         channel.ConfigureBindings(connectionConfig.Name,amqpObjects.BindingList, _logger);
         //foreach ...
 
-        var consumer = new AsyncEventingBasicConsumer(channel);
 
+        var consumer = new AsyncEventingBasicConsumer(channel);
         consumer.Received += async (ch, ea) =>
         {
         

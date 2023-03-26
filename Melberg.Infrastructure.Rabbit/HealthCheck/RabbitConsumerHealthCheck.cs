@@ -11,10 +11,10 @@ namespace Melberg.Infrastructure.Rabbit.Health;
 
 public class RabbitConsumerHealthCheck : HealthCheck
 {
-    private readonly IConnection _connection;
+    private readonly IModel _connection;
     public RabbitConsumerHealthCheck(IServiceProvider serviceProvider)
     {
-        _connection = serviceProvider.GetService<IStandardConnectionFactory>().GetConsumerChannel();
+        _connection = serviceProvider.GetService<IStandardConnectionFactory>().GetConsumerModel();
     }
 
     public override string Name => "rabbitconsumer";
