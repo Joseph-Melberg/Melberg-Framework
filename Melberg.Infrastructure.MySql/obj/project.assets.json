@@ -1041,7 +1041,7 @@
     "/home/jbmelberg/.nuget/packages/": {}
   },
   "project": {
-    "version": "6.0.2",
+    "version": "1.0.2",
     "restore": {
       "projectUniqueName": "/home/jbmelberg/Documents/Git/Melberg-Framework/Melberg.Infrastructure.MySql/Melberg.Infrastructure.MySql.csproj",
       "projectName": "Melberg.Infrastructure.MySql",
@@ -1056,7 +1056,10 @@
         "net6.0"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://nuget.pkg.github.com/Joseph-Melberg/Melberg-Framework/index.json": {},
+        "https://nuget.pkg.github.com/Joseph-Melberg/index.json": {},
+        "https://nuget.pkg.github.com/Melberg-Framework/index.json": {}
       },
       "frameworks": {
         "net6.0": {

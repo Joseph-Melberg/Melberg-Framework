@@ -5,7 +5,7 @@
 		<PackageId>Melberg.Application</PackageId>
 		<Version>1.0.2</Version>
 		<Authors>Joseph Melberg</Authors>
-		<Company>Inter</Company>
+		<RepositoryUrl>https://github.com/Joseph-Melberg/Melberg-Framework</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
