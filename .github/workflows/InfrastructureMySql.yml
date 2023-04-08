@@ -30,10 +30,12 @@ jobs:
       with:
         find: \d*\.\d*\.(\d*)\</Version
         replace: ${{env.vers}}
+    - name: Prepare
+      run: mkdir output
     - name: Setup
       run: dotnet nuget add source --username Joseph-Melberg --password ${{ secrets.NUGET_API_KEY }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Joseph-Melberg/index.json"
     - name: Pack 
-      run: dotnet pack --configuration Release 
+      run: dotnet pack -o output --configuration Release 
     - name: Push Melberg.Common
-      run: dotnet nuget push --skip-duplicate -s "github"
+      run: dotnet nuget push --skip-duplicate -s "github" output
 
