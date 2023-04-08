@@ -30,36 +30,10 @@ jobs:
       with:
         find: \d*\.\d*\.(\d*)\</Version
         replace: ${{env.vers}}
-    - name: Pack Melberg.Infrastructure.Couchbase
-      run: dotnet pack --configuration Release Melberg.Infrastructure.Couchbase/Melberg.Infrastructure.Couchbase.csproj 
-    - name: Push Melberg.Infrastructure.Couchbase
-      run: dotnet nuget push Melberg.Infrastructure.Couchbase/bin/Release/Melberg.Infrastructure.Couchbase* --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
-    - name: Pack Melbreg.Infrastructure.MySql
-      run: dotnet pack --configuration Release Melberg.Infrastructure.MySql/Melberg.Infrastructure.MySql.csproj 
-    - name: Push Melberg.Infrastructure.MySql
-      run: dotnet nuget push Melberg.Infrastructure.MySql/bin/Release/Melberg.Infrastructure.MySql* --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
-    - name: Pack Melberg.Core
-      run: dotnet pack --configuration Release Melberg.Core/Melberg.Core.csproj 
-    - name: Push Melberg.Core
-      run: dotnet nuget push Melberg.Core/bin/Release/Melberg.Core* --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
-    - name: Pack Melberg.Infrastructure.Rabbit
-      run: dotnet pack --configuration Release Melberg.Infrastructure.Rabbit/Melberg.Infrastructure.Rabbit.csproj 
-    - name: Push Melberg.Infrastructure.Rabbit
-      run: dotnet nuget push Melberg.Infrastructure.Rabbit/bin/Release/Melberg.* --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
-    - name: Pack Melberg.Infrastructure.Redis
-      run: dotnet pack --configuration Release Melberg.Infrastructure.Redis/Melberg.Infrastructure.Redis.csproj 
-    - name: Push Melberg.Infrastructure.Redis
-      run: dotnet nuget push Melberg.Infrastructure.Redis/bin/Release/Melberg.* --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
-    - name: Pack Melberg.Common
-      run: dotnet pack --configuration Release Melberg.Common/Melberg.Common.csproj 
+    - name: Setup
+      run: dotnet nuget add source -- username Joseph-Melberg --password ${{ secrets.NUGET_API_KEY }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Joseph-Melberg/index.json"
+    - name: Pack 
+      run: dotnet pack --configuration Release 
     - name: Push Melberg.Common
-      run: dotnet nuget push Melberg.Common/bin/Release/Melberg.* --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
-    - name: Pack Melberg.Infrastructure.InfluxDB
-      run: dotnet pack --configuration Release Melberg.Infrastructure.InfluxDB/Melberg.Infrastructure.InfluxDB.csproj 
-    - name: Push Melberg.Infrastructure.InfluxDB
-      run: dotnet nuget push Melberg.Infrastructure.InfluxDB/bin/Release/Melberg.Infrastructure.InfluxDB* --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
-    - name: Pack Melberg.Application
-      run: dotnet pack --configuration Release Melberg.Application/Melberg.Application.csproj
-    - name: Push Melberg.Application
-      run: dotnet nuget push Melberg.Application/bin/Release/Melberg.* --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push --skip-duplicate --api-key ${{secrets.NUGET_API_KEY} -s "github"
 

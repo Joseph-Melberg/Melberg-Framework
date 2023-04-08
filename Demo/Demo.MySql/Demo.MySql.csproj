@@ -20,6 +20,7 @@
 	</ItemGroup>
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
     <TargetFramework>netcoreapp6.0</TargetFramework>
   </PropertyGroup>
 
