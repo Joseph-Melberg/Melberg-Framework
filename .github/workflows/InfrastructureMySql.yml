@@ -37,5 +37,4 @@ jobs:
     - name: Pack 
       run: dotnet pack -o output --configuration Release 
     - name: Push Melberg.Common
-      run: dotnet nuget push --skip-duplicate -s "github" output
-
+      run: dotnet nuget push --skip-duplicate -s "github" output/
