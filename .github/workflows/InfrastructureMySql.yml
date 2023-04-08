@@ -31,7 +31,7 @@ jobs:
         find: \d*\.\d*\.(\d*)\</Version
         replace: ${{env.vers}}
     - name: Setup
-      run: dotnet nuget add source -- username Joseph-Melberg --password ${{ secrets.NUGET_API_KEY }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Joseph-Melberg/index.json"
+      run: dotnet nuget add source --username Joseph-Melberg --password ${{ secrets.NUGET_API_KEY }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Joseph-Melberg/index.json"
     - name: Pack 
       run: dotnet pack --configuration Release 
     - name: Push Melberg.Common
