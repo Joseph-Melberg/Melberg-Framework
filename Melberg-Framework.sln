@@ -3,35 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melberg.Infrastructure.MySql", "Melberg.Infrastructure.MySql\Melberg.Infrastructure.MySql.csproj", "{196F2630-6C8A-4460-85C4-1C75301CFDB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MelbergFramework.Infrastructure.MySql", "MelbergFramework.Infrastructure.MySql\MelbergFramework.Infrastructure.MySql.csproj", "{196F2630-6C8A-4460-85C4-1C75301CFDB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melberg.Core", "Melberg.Core\Melberg.Core.csproj", "{5182E2DB-51DB-4064-B735-CEB25F10A0D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MelbergFramework.Core", "MelbergFramework.Core\MelbergFramework.Core.csproj", "{5182E2DB-51DB-4064-B735-CEB25F10A0D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melberg.Infrastructure.Couchbase", "Melberg.Infrastructure.Couchbase\Melberg.Infrastructure.Couchbase.csproj", "{91430F1E-0930-42E6-99DF-353055A18045}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MelbergFramework.Infrastructure.Couchbase", "MelbergFramework.Infrastructure.Couchbase\MelbergFramework.Infrastructure.Couchbase.csproj", "{91430F1E-0930-42E6-99DF-353055A18045}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{DFBC2D38-63BA-497F-A339-C261D7523024}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Couchbase", "Demo\Demo.Couchbase\Demo.Couchbase.csproj", "{A6A8E502-D0DB-4FEA-8006-74C840D7ECD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melberg.Infrastructure.Rabbit", "Melberg.Infrastructure.Rabbit\Melberg.Infrastructure.Rabbit.csproj", "{571A7DD9-4578-4DE0-9BFE-B3FD58CDE2C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MelbergFramework.Infrastructure.Rabbit", "MelbergFramework.Infrastructure.Rabbit\MelbergFramework.Infrastructure.Rabbit.csproj", "{571A7DD9-4578-4DE0-9BFE-B3FD58CDE2C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.RabbitConsumer", "Demo\Demo.RabbitConsumer\Demo.RabbitConsumer.csproj", "{971CE9CC-35BF-4A61-97B7-D0C0F32972A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Redis", "Demo\Demo.Redis\Demo.Redis.csproj", "{92C2DA3D-D1D6-4529-B991-7445582CF9A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melberg.Infrastructure.Redis", "Melberg.Infrastructure.Redis\Melberg.Infrastructure.Redis.csproj", "{BDFD1C4F-F814-4E7E-B68F-3F09F954A628}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MelbergFramework.Infrastructure.Redis", "MelbergFramework.Infrastructure.Redis\MelbergFramework.Infrastructure.Redis.csproj", "{BDFD1C4F-F814-4E7E-B68F-3F09F954A628}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.MySql", "Demo\Demo.MySql\Demo.MySql.csproj", "{8D911D38-A7A5-40B6-A836-95868DA49264}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.RabbitPublisher", "Demo\Demo.RabbitPublisher\Demo.RabbitPublisher.csproj", "{9EFE2F55-2F5B-4BF2-94C0-7B8F0283A374}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melberg.Infrastructure.InfluxDB", "Melberg.Infrastructure.InfluxDB\Melberg.Infrastructure.InfluxDB.csproj", "{34868200-D874-427A-B642-B9D0C97A994F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MelbergFramework.Infrastructure.InfluxDB", "MelbergFramework.Infrastructure.InfluxDB\MelbergFramework.Infrastructure.InfluxDB.csproj", "{34868200-D874-427A-B642-B9D0C97A994F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.InfluxDB", "Demo\Demo.InfluxDB\Demo.InfluxDB.csproj", "{1679C579-44AB-4C99-9348-33851D54B7C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melberg.Common", "Melberg.Common\Melberg.Common.csproj", "{53BC03B6-ADEC-41BE-B4BF-06F0A42577EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MelbergFramework.Common", "MelbergFramework.Common\MelbergFramework.Common.csproj", "{53BC03B6-ADEC-41BE-B4BF-06F0A42577EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melberg.Application", "Melberg.Application\Melberg.Application.csproj", "{F0509509-F200-4E8C-AE21-81981EF1BEB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MelbergFramework.Application", "MelbergFramework.Application\MelbergFramework.Application.csproj", "{F0509509-F200-4E8C-AE21-81981EF1BEB1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.BetterHosting", "Demo\Demo.BetterHosting\Demo.BetterHosting.csproj", "{32A83278-8429-409B-A596-2045D2D05B84}"
 EndProject

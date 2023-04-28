@@ -1,6 +1,6 @@
-﻿using Melberg.Application;
-using Melberg.Infrastructure.Rabbit;
-using Melberg.Infrastructure.Rabbit.Publishers;
+﻿using MelbergFramework.Application;
+using MelbergFramework.Infrastructure.Rabbit;
+using MelbergFramework.Infrastructure.Rabbit.Publishers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

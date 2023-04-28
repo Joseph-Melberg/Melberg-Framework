@@ -1,5 +1,5 @@
 ﻿using Demo.InfluxDB.Infrastructure.Core;
-using Melberg.Application;
+using MelbergFramework.Application;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

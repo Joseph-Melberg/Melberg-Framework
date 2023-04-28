@@ -38,7 +38,7 @@ jobs:
           replace: ${{env.vers}}
       - name: test
         run: |
-          cat Melberg.Infrastructure.MySql/Melberg.Infrastructure.MySql.csproj
+          cat MelbergFramework.Infrastructure.MySql/MelbergFramework.Infrastructure.MySql.csproj
 
 
 

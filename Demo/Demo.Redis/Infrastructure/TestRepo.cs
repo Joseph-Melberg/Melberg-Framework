@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Demo.Redis.Infrastructure.Core;
-using Melberg.Infrastructure.Redis.Repository;
+using MelbergFramework.Infrastructure.Redis.Repository;
 
 namespace Demo.Redis.Infrastructure
 {

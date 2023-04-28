@@ -1,7 +1,7 @@
-using Melberg.Application;
-using Melberg.Application.Health;
-using Melberg.Core.Health;
-using Melberg.Infrastructure.Rabbit;
+using MelbergFramework.Application;
+using MelbergFramework.Application.Health;
+using MelbergFramework.Core.Health;
+using MelbergFramework.Infrastructure.Rabbit;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Demo.RabbitPublisher;

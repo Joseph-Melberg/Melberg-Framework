@@ -32,9 +32,7 @@ jobs:
         replace: ${{env.vers}}
     - name: Prepare
       run: mkdir output
-    - name: Setup
-      run: dotnet nuget add source --username Joseph-Melberg --password ${{ secrets.NUGET_API_KEY }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Joseph-Melberg/index.json"
     - name: Pack 
       run: dotnet pack -o output --configuration Release 
-    - name: Push Melberg.Common
-      run: dotnet nuget push --skip-duplicate -s "github" output/
+    - name: Push
+      run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.NUGET_API_KEY}}

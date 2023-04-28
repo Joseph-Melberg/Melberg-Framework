@@ -2,10 +2,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Demo.RabbitConsumer.Service;
-using Melberg.Application;
-using Melberg.Application.Health;
-using Melberg.Core.Health;
-using Melberg.Infrastructure.Rabbit;
+using MelbergFramework.Application;
+using MelbergFramework.Application.Health;
+using MelbergFramework.Core.Health;
+using MelbergFramework.Infrastructure.Rabbit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 

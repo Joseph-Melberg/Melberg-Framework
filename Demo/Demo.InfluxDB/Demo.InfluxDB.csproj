@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Melberg.Infrastructure.InfluxDB\Melberg.Infrastructure.InfluxDB.csproj" />
-    <ProjectReference Include="..\..\Melberg.Application\Melberg.Application.csproj" />
-    <ProjectReference Include="..\..\Melberg.Core\Melberg.Core.csproj" />
+    <ProjectReference Include="..\..\MelbergFramework.Infrastructure.InfluxDB\MelbergFramework.Infrastructure.InfluxDB.csproj" />
+    <ProjectReference Include="..\..\MelbergFramework.Application\MelbergFramework.Application.csproj" />
+    <ProjectReference Include="..\..\MelbergFramework.Core\MelbergFramework.Core.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

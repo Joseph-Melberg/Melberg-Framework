@@ -1,6 +1,6 @@
 using Demo.InfluxDB.Infrastructure;
 using Demo.InfluxDB.Infrastructure.Core;
-using Melberg.Infrastructure.InfluxDB;
+using MelbergFramework.Infrastructure.InfluxDB;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Demo.InfluxDB

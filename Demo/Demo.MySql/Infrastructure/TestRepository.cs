@@ -1,5 +1,5 @@
 using System.Linq;
-using Melberg.Infrastructure.MySql;
+using MelbergFramework.Infrastructure.MySql;
 namespace Demo.MySql.Infrastructure;
 
 public class TestRepository : BaseRepository<ReadWriteContext>, ITestRepository

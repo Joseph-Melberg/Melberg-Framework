@@ -1,7 +1,7 @@
 using Demo.MySql.Infrastructure;
-using Melberg.Application;
-using Melberg.Core;
-using Melberg.Infrastructure.MySql;
+using MelbergFramework.Application;
+using MelbergFramework.Core;
+using MelbergFramework.Infrastructure.MySql;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Demo.MySql;

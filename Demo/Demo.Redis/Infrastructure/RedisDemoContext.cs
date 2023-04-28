@@ -1,5 +1,5 @@
-using Melberg.Core.Redis;
-using Melberg.Infrastructure.Redis;
+using MelbergFramework.Core.Redis;
+using MelbergFramework.Infrastructure.Redis;
 
 namespace Demo.Redis.Infrastructure
 {

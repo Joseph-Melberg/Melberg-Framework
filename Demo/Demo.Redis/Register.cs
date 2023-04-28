@@ -1,6 +1,6 @@
 using Demo.Redis.Infrastructure;
 using Demo.Redis.Infrastructure.Core;
-using Melberg.Infrastructure.Redis;
+using MelbergFramework.Infrastructure.Redis;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Demo.Redis

@@ -1,7 +1,7 @@
 using Demo.RabbitConsumer.Messages;
 using Demo.RabbitConsumer.Service;
-using Melberg.Infrastructure.Rabbit;
-using Melberg.Infrastructure.Rabbit.Translator;
+using MelbergFramework.Infrastructure.Rabbit;
+using MelbergFramework.Infrastructure.Rabbit.Translator;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Demo.RabbitConsumer;
