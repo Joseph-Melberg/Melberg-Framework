@@ -16,6 +16,6 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Melberg.Infrastructure.Redis\Melberg.Infrastructure.Redis.csproj"/>
+		<ProjectReference Include="..\..\MelbergFramework.Infrastructure.Redis\MelbergFramework.Infrastructure.Redis.csproj"/>
 	</ItemGroup>
 </Project>

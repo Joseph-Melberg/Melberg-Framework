@@ -11,7 +11,7 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0"/>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Melberg.Infrastructure.Rabbit\Melberg.Infrastructure.Rabbit.csproj"/>
+		<ProjectReference Include="..\..\MelbergFramework.Infrastructure.Rabbit\MelbergFramework.Infrastructure.Rabbit.csproj"/>
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="appsettings.json">

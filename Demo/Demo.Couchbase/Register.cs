@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using Melberg.Infrastructure.Couchbase;
+using MelbergFramework.Infrastructure.Couchbase;
 using Demo.Couchbase.Infrastructure.Couchbase;
 using Demo.Couchbase.Infrastructure;
 

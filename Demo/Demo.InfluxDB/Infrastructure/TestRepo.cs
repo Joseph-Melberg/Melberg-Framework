@@ -1,5 +1,5 @@
 using Demo.InfluxDB.Infrastructure.Core;
-using Melberg.Infrastructure.InfluxDB;
+using MelbergFramework.Infrastructure.InfluxDB;
 
 namespace Demo.InfluxDB.Infrastructure;
 

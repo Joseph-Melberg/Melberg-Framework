@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Melberg.Application\Melberg.Application.csproj" />
-    <ProjectReference Include="..\..\Melberg.Core\Melberg.Core.csproj" />
-    <ProjectReference Include="..\..\Melberg.Infrastructure.MySql\Melberg.Infrastructure.MySql.csproj" />
+    <ProjectReference Include="..\..\MelbergFramework.Application\MelbergFramework.Application.csproj" />
+    <ProjectReference Include="..\..\MelbergFramework.Core\MelbergFramework.Core.csproj" />
+    <ProjectReference Include="..\..\MelbergFramework.Infrastructure.MySql\MelbergFramework.Infrastructure.MySql.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

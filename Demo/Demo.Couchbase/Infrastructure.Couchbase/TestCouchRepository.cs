@@ -1,4 +1,4 @@
-using Melberg.Infrastructure.Couchbase;
+using MelbergFramework.Infrastructure.Couchbase;
 
 namespace Demo.Couchbase.Infrastructure.Couchbase
 {

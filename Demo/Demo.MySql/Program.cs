@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Demo.MySql.Infrastructure;
-using Melberg.Application;
+using MelbergFramework.Application;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Demo.MySql;

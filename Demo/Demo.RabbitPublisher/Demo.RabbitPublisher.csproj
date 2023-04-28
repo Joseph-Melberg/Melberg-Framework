@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Melberg.Core\Melberg.Core.csproj" />
-    <ProjectReference Include="..\..\Melberg.Infrastructure.Rabbit\Melberg.Infrastructure.Rabbit.csproj" />
+    <ProjectReference Include="..\..\MelbergFramework.Core\MelbergFramework.Core.csproj" />
+    <ProjectReference Include="..\..\MelbergFramework.Infrastructure.Rabbit\MelbergFramework.Infrastructure.Rabbit.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

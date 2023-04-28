@@ -10,7 +10,7 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0"/>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Melberg.Infrastructure.Couchbase\Melberg.Infrastructure.Couchbase.csproj"/>
+		<ProjectReference Include="..\..\MelbergFramework.Infrastructure.Couchbase\MelbergFramework.Infrastructure.Couchbase.csproj"/>
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="appsettings.json">
