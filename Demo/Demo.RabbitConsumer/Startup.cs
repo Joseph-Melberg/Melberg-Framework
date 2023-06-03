@@ -3,8 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Demo.RabbitConsumer.Service;
 using MelbergFramework.Application;
-using MelbergFramework.Application.Health;
-using MelbergFramework.Core.Health;
 using MelbergFramework.Infrastructure.Rabbit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

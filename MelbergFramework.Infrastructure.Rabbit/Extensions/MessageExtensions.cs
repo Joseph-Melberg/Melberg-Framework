@@ -9,7 +9,15 @@ internal static class MessageExtensions
     {
         if(message.Headers.TryGetValue(Headers.Timestamp,out var timestamp))
         {
-           return DateTime.ParseExact((string)timestamp,"o", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal); 
+            try
+            {
+                
+                return DateTime.ParseExact((string)timestamp,"o", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal); 
+            }
+            catch (System.Exception)
+            {
+                
+            }
         }
         return DateTime.UtcNow;
     }
