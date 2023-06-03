@@ -102,6 +102,7 @@ public class RabbitService : BackgroundService
         catch (System.Exception ex)
         {
             _logger.LogError(ex.Message);
+            throw;
         }
         return Task.CompletedTask;
     } 
