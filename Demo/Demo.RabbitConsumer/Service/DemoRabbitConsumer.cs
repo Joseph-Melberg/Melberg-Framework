@@ -2,9 +2,11 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Demo.RabbitConsumer.Messages;
+using MelbergFramework.Core.Application;
 using MelbergFramework.Infrastructure.Rabbit.Consumers;
 using MelbergFramework.Infrastructure.Rabbit.Messages;
 using MelbergFramework.Infrastructure.Rabbit.Translator;
+using Microsoft.Extensions.Options;
 
 namespace Demo.RabbitConsumer.Service
 {
@@ -12,7 +14,8 @@ namespace Demo.RabbitConsumer.Service
     {
         private readonly IJsonToObjectTranslator<TestMessage> _translator;
         public DemoRabbitConsumer(
-            IJsonToObjectTranslator<TestMessage> translator
+            IJsonToObjectTranslator<TestMessage> translator, 
+            IOptions<ApplicationConfiguration> config
         )
         {
             _translator = translator;

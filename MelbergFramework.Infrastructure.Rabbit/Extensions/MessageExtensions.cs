@@ -11,6 +11,6 @@ internal static class MessageExtensions
         {
            return DateTime.ParseExact((string)timestamp,"o", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal); 
         }
-        throw new ArgumentNullException("Timestamp invalid, header missing");
+        return DateTime.UtcNow;
     }
 }
