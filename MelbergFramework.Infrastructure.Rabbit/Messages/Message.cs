@@ -10,6 +10,6 @@ public class Message
 
     public byte[] Body { get; set; }
     public string RoutingKey { get; set; }
-    public DateTime Timestamp => this.GetTimestamp(); 
+    public DateTime Timestamp { get ;set; }
 
 }
