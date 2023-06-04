@@ -1,13 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using InfluxDB.Client;
 using InfluxDB.Client.Api.Domain;
 using InfluxDB.Client.Writes;
 using MelbergFramework.Common.Exceptions;
-using MelbergFramework.Core.InfluxDB;
 
 namespace MelbergFramework.Infrastructure.InfluxDB;
 public class DefaultContext
@@ -49,11 +46,8 @@ public class DefaultContext
         {
             point = FieldCleaner(point, item.Key,item.Value);
         }
-        
-        if(model.Timestamp != 0)
-        {
-            point = point.Timestamp(model.Timestamp,WritePrecision.S);
-        }
+
+        point = point.Timestamp(model.Timestamp,WritePrecision.Ms);
         return point;
     }
 
