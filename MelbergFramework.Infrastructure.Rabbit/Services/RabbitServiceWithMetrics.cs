@@ -34,11 +34,12 @@ public class RabbitServiceWithMetrics : RabbitService
 
     public override async Task ConsumeMessageAsync(Message message, CancellationToken cancellationToken)
     {
+        var now = DateTime.UtcNow;
         var timer = new Stopwatch();
         timer.Start();
         await base.ConsumeMessageAsync(message, cancellationToken);
         timer.Stop();
     
-        _metricPublisher.SendMetric(timer.ElapsedMilliseconds, message.Timestamp);
+        _metricPublisher.SendMetric(timer.ElapsedMilliseconds, now);
     }
 }
