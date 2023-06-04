@@ -20,7 +20,6 @@ public class DefaultContext
 
     public async Task WritePointAsync(InfluxDBDataModel model, string bucket, string org_id)
     {
-        model.Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         var point = ToPointModel(model);
         await WriteApi.WritePointAsync( bucket, org_id, point);
     }
