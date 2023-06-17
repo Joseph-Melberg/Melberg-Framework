@@ -57,6 +57,15 @@ public static class MelbergHost
     {
         var tasks  = host.Services.GetServices<IHostedService>();
         var tasksToRun = tasks.Select(_ => Task.Run(()=> _.StartAsync(token)));
-        await Task.WhenAll(Task.WhenAll(tasksToRun),  Task.Delay(Timeout.Infinite));
+        try
+        {
+            
+            await Task.WhenAll(Task.WhenAll(tasksToRun),  Task.Delay(Timeout.Infinite));
+        }
+        catch (System.Exception ex)
+        {
+            
+            throw;
+        }
     }
 }
