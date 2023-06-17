@@ -22,12 +22,14 @@ public class DemoRabbitConsumerWithMetric : IStandardConsumer
         _translator = translator;
     }
 
-    public Task ConsumeMessageAsync(Message message, CancellationToken ct)
+    public async Task ConsumeMessageAsync(Message message, CancellationToken ct)
     {
         Console.WriteLine(message);
 
         var result = _translator.Translate(message);
 
-        return Task.CompletedTask;
+        await Task.Delay(2000);
+
+        await Task.Delay(10);
     }
 }

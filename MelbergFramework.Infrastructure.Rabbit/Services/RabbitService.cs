@@ -93,18 +93,17 @@ public class RabbitService : BackgroundService
     }
 
 
-    public virtual Task ConsumeMessageAsync(Message message, CancellationToken cancellationToken) 
+    public virtual async Task ConsumeMessageAsync(Message message, CancellationToken cancellationToken) 
     {
         try
         {
-            _consumer.ConsumeMessageAsync(message, cancellationToken);     
+            await _consumer.ConsumeMessageAsync(message, cancellationToken);     
         }
         catch (System.Exception ex)
         {
             _logger.LogError(ex.Message);
             throw;
         }
-        return Task.CompletedTask;
     } 
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
