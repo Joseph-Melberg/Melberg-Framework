@@ -37,7 +37,6 @@ public class RabbitServiceWithMetrics : RabbitService
         var now = DateTime.UtcNow;
         var timer = new Stopwatch();
         timer.Start();
-        await Task.Delay(1000);
         await base.ConsumeMessageAsync(message, cancellationToken);
         timer.Stop();
     
