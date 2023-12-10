@@ -16,7 +16,9 @@ namespace MelbergFramework.Infrastructure.Rabbit;
 public class RabbitServiceWithMetrics : RabbitService
 {
     private readonly IMetricPublisher _metricPublisher;
+    private readonly ILogger _logger;
     public RabbitServiceWithMetrics(
+        IServiceProvider provider,
         IMetricPublisher metricPublisher,
         IStandardConsumer consumer,
         IRabbitConfigurationProvider configurationProvider,
@@ -27,12 +29,14 @@ public class RabbitServiceWithMetrics : RabbitService
             configurationProvider,
             connectionFactory,
             consumerConfiguration,
+            provider,
             logger)
     {
         _metricPublisher = metricPublisher;
+        _logger = logger;
     }
 
-    public override async Task ConsumeMessageAsync(Message message, CancellationToken cancellationToken)
+    public override Task HandleMessage(object ch, object ea)
     {
         var now = DateTime.UtcNow;
         var timer = new Stopwatch();
@@ -40,6 +44,13 @@ public class RabbitServiceWithMetrics : RabbitService
         await base.ConsumeMessageAsync(message, cancellationToken);
         timer.Stop();
     
-        _metricPublisher.SendMetric(timer.ElapsedMilliseconds, now);
+        try
+        {
+            _metricPublisher.SendMetric(timer.ElapsedMilliseconds, now);
+        }
+        catch (System.Exception ex)
+        {
+            _logger.LogError($"Couldn't send metric message, {ex}");
+        }
     }
 }

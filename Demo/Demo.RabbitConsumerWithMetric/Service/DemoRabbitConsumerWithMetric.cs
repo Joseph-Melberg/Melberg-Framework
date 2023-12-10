@@ -14,21 +14,21 @@ public class DemoRabbitConsumerWithMetric : IStandardConsumer
 {
 
     private readonly IJsonToObjectTranslator<TestMessage> _translator;
+    private readonly IThing _thing;
     public DemoRabbitConsumerWithMetric(
         IJsonToObjectTranslator<TestMessage> translator, 
-        IOptions<ApplicationConfiguration> config
+        IOptions<ApplicationConfiguration> config,
+        IThing thing
     )
     {
+        _thing = thing;
         _translator = translator;
     }
 
     public async Task ConsumeMessageAsync(Message message, CancellationToken ct)
     {
-        Console.WriteLine(message);
-
+        Console.WriteLine(_thing.Value);
         var result = _translator.Translate(message);
-
-        await Task.Delay(2000);
 
         await Task.Delay(10);
     }

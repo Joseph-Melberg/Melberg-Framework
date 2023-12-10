@@ -12,6 +12,7 @@ public class Register
     {
         RabbitModule.RegisterConsumerWithMetrics<DemoRabbitConsumerWithMetric>(services);
         services.AddTransient<IJsonToObjectTranslator<TestMessage>,JsonToObjectTranslator<TestMessage>>();
+        services.AddScoped<IThing,Thing>();
         return services;
     }
 }

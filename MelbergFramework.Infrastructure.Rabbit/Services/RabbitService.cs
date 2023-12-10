@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using MelbergFramework.Infrastructure.Rabbit.Consumers;
 using MelbergFramework.Infrastructure.Rabbit.Extensions;
 using MelbergFramework.Infrastructure.Rabbit.Factory;
 using MelbergFramework.Infrastructure.Rabbit.Messages;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -19,22 +21,21 @@ namespace MelbergFramework.Infrastructure.Rabbit;
 public class RabbitService : BackgroundService
 {
 
-    private readonly IStandardConsumer _consumer;
     private readonly ILogger _logger;
     private readonly IStandardConnectionFactory _connectionFactory;
     private readonly IRabbitConfigurationProvider _configurationProvider;
     private readonly RabbitConsumerConfiguration _consumerConfiguration;
-
+    private readonly IServiceProvider _provider;
     public override Task ExecuteTask => base.ExecuteTask;
 
     public RabbitService(
-        IStandardConsumer consumer,
         IRabbitConfigurationProvider configurationProvider, 
         IStandardConnectionFactory connectionFactory, 
         IOptions<RabbitConsumerConfiguration> consumerConfiguration,
+        IServiceProvider provider,
         ILogger logger)
     {
-        _consumer = consumer;    
+        _provider = provider;
         _logger = logger;
         _configurationProvider = configurationProvider;
         _connectionFactory = connectionFactory;
@@ -48,42 +49,14 @@ public class RabbitService : BackgroundService
 
     public override async Task StartAsync(CancellationToken cancellationToken)
     {
-        await Task.Yield();
         _logger.LogInformation("Beginning Rabbit");
         
-        var receiverConfig = _configurationProvider.GetAsyncReceiverConfiguration("AsyncRecievers");
+        ApplyConfiguration();
 
-        var connectionConfig = _configurationProvider.GetConnectionConfigData(receiverConfig.Connection);
         var channel = _connectionFactory.GetConsumerModel();
-
-        var amqpObjects = _configurationProvider.GetAmqpObjectsConfiguration();
-
-
-        channel.ConfigureExchanges(connectionConfig.Name,amqpObjects.ExchangeList, _logger);
-        channel.ConfigureQueues(connectionConfig.Name,amqpObjects.QueueList, _logger);
-        channel.ConfigureBindings(connectionConfig.Name,amqpObjects.BindingList, _logger);
-        //foreach ...
-
-
         var consumer = new AsyncEventingBasicConsumer(channel);
-        consumer.Received += async (ch, ea) =>
-        {
-        
-            var message = new Message()
-            {
-                RoutingKey = ea.RoutingKey,
-                Headers = ea.BasicProperties.Headers ?? new Dictionary<string,object>(),
-                Body = ea.Body.ToArray()
-            };
+        consumer.Received += async (ch, ea) => HandleMessage(ch, ea);
 
-            message.Timestamp = message.GetTimestamp();
-
-
-            await ConsumeMessageAsync(message, cancellationToken);
-
-            channel.BasicAck(ea.DeliveryTag, false);
-            await Task.Yield();
-        };
         for(int i = 0; i < _consumerConfiguration.Scale; i ++)
         {
             var consumerTag = channel.BasicConsume(receiverConfig.Queue, false, consumer);
@@ -92,19 +65,43 @@ public class RabbitService : BackgroundService
         await Task.Delay(Timeout.Infinite, cancellationToken); 
     }
 
-
-    public virtual async Task ConsumeMessageAsync(Message message, CancellationToken cancellationToken) 
+    public virtual async Task HandleMessage(object ch, BasicDeliverEventArgs ea)
     {
+        var scope = _provider.CreateAsyncScope();
+        var consumerService = scope.ServiceProvider.GetService<IStandardConsumer>();
+        var message = new Message()
+        {
+            RoutingKey = ea.RoutingKey,
+            Headers = ea.BasicProperties.Headers ?? new Dictionary<string,object>(),
+            Body = ea.Body.ToArray()
+        };
+
+        message.Timestamp = message.GetTimestamp();
+
         try
         {
-            await _consumer.ConsumeMessageAsync(message, cancellationToken);     
+            await consumerService.ConsumeMessageAsync(message,cancellationToken.None);
         }
         catch (System.Exception ex)
         {
             _logger.LogError(ex.Message);
-            throw;
         }
-    } 
+
+        channel.BasicAck(ea.DeliveryTag, false);
+
+        await scope.DisposeAsync();
+    }
+
+    private void ApplyConfiguration()
+    {
+        var receiverConfig = _configurationProvider.GetAsyncReceiverConfiguration("AsyncRecievers");
+        var connectionConfig = _configurationProvider.GetConnectionConfigData(receiverConfig.Connection);
+        var amqpObjects = _configurationProvider.GetAmqpObjectsConfiguration();
+
+        channel.ConfigureExchanges(connectionConfig.Name,amqpObjects.ExchangeList, _logger);
+        channel.ConfigureQueues(connectionConfig.Name,amqpObjects.QueueList, _logger);
+        channel.ConfigureBindings(connectionConfig.Name,amqpObjects.BindingList, _logger);
+    }
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
