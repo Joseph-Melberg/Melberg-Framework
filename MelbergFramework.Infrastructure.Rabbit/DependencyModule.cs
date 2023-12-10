@@ -18,12 +18,13 @@ namespace MelbergFramework.Infrastructure.Rabbit
 {
     public static class RabbitModule
     {
-        public static void RegisterMicroConsumer<TConsumer>(IServiceCollection catalog)
+        public static void RegisterMicroConsumer<TConsumer>(IServiceCollection catalog, string selector)
         where TConsumer : class, IStandardConsumer
         {
             catalog.AddTransient<TConsumer,TConsumer>();
             catalog.AddHostedService(
                 (s) => new RabbitMicroService<TConsumer>(
+                    selector,
                     s.GetService<TConsumer>(),
                     s.GetService<IRabbitConfigurationProvider>(),
                     s.GetService<IStandardConnectionFactory>(),

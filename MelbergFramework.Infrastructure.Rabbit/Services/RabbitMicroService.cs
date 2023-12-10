@@ -25,12 +25,13 @@ where TConsumer : class, IStandardConsumer
 
     
     public RabbitMicroService(
+        string selector,
         TConsumer consumer,
         IRabbitConfigurationProvider configurationProvider, 
         IStandardConnectionFactory connectionFactory, 
         ILogger logger)
     {
-        _selector = consumer.GetType().ToString();
+        _selector = selector;
         _consumer = consumer;
         _connectionFactory = connectionFactory;
         _configurationProvider = configurationProvider;
