@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using MelbergFramework.Core.Health;
 using MelbergFramework.Core.Rabbit;
 using MelbergFramework.Core.Rabbit.Configurations;
@@ -9,11 +11,27 @@ using MelbergFramework.Infrastructure.Rabbit.Messages;
 using MelbergFramework.Infrastructure.Rabbit.Metrics;
 using MelbergFramework.Infrastructure.Rabbit.Publishers;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace MelbergFramework.Infrastructure.Rabbit
 {
     public static class RabbitModule
     {
+        public static void RegisterMicroConsumer<TConsumer>(IServiceCollection catalog, string selector)
+        where TConsumer : class, IStandardConsumer
+        {
+            catalog.AddTransient<TConsumer,TConsumer>();
+            catalog.AddHostedService(
+                (s) => new RabbitMicroService<TConsumer>(
+                    selector,
+                    s.GetService<TConsumer>(),
+                    s.GetService<IRabbitConfigurationProvider>(),
+                    s.GetService<IStandardConnectionFactory>(),
+                    s.GetService<ILogger>())
+            );
+        }
+        
         public static void RegisterConsumer<TConsumer>(IServiceCollection catalog)
         where TConsumer : class, IStandardConsumer
         {

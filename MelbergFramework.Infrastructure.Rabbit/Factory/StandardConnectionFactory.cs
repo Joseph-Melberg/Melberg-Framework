@@ -21,9 +21,9 @@ public class StandardConnectionFactory : IStandardConnectionFactory
         _logger = logger;
         _configurationProvider = configurationProvider;
     }
-    private IConnection GenerateConsumerConnection()
+    private IConnection GenerateConsumerConnection(string consumerName)
     {
-        var receiverConfig = _configurationProvider.GetAsyncReceiverConfiguration("AsyncRecievers");
+        var receiverConfig = _configurationProvider.GetAsyncReceiverConfiguration(consumerName);
         var connectionConfig = _configurationProvider.GetConnectionConfigData(receiverConfig.Connection);
         return MakeNewConnection(connectionConfig);
     }
@@ -35,12 +35,12 @@ public class StandardConnectionFactory : IStandardConnectionFactory
         return MakeNewConnection(connectionConfig);
     }
 
-    public IModel GetConsumerModel()
+    public IModel GetConsumerModel(string name = "IncommingMessages")
     {
         if(_consumerChannel == null)    
         {
             _logger.LogInformation($"Consumer channel created.");
-            _consumerChannel = GenerateConsumerConnection().CreateModel();
+            _consumerChannel = GenerateConsumerConnection(name).CreateModel();
         }
         _logger.LogInformation($"Consumer channel acquired.");
         return _consumerChannel;

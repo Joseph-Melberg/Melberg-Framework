@@ -4,6 +4,6 @@ namespace MelbergFramework.Infrastructure.Rabbit.Factory;
 
 public interface IStandardConnectionFactory
 {
-    IModel GetConsumerModel();
+    IModel GetConsumerModel(string name = "IncomingMessages");
     IConnection GetPublisherChannel(string name);
 }
