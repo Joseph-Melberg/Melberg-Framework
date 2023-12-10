@@ -49,7 +49,7 @@ public class RabbitConfigurationProvider : IRabbitConfigurationProvider
         var section =_configuration
         .GetSection("Rabbit:ClientDeclarations:AsyncRecievers").Get<AsyncReceiverConfigData[]>()
         
-        .Where(_ => _.Name == "IncomingMessages").First(); 
+        .Where(_ => _.Name == receiverName).First(); 
     
         return new AsyncReceiverConfigData
         {

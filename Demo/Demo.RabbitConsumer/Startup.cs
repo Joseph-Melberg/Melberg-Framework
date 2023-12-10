@@ -14,7 +14,7 @@ public class Startup : IAppStartup
     public  void ConfigureServices(IServiceCollection services)
     {
         RabbitModule.RegisterConsumer<DemoRabbitConsumer>(services);
-        services.AddHostedService<Test>();
+        RabbitModule.RegisterMicroConsumer<DemoRabbitAltConsumer>(services);
         Register.RegisterServices(services);
     }
 
