@@ -8,21 +8,17 @@ namespace MelbergFramework.Infrastructure.Rabbit.Metrics;
 public class MetricPublisher : IMetricPublisher
 {
     private readonly IStandardPublisher<MetricMessage> _metricPublisher;
-    private readonly ApplicationConfiguration _config;
 
-    public MetricPublisher(
-        IStandardPublisher<MetricMessage> publisher,
-        IOptions<ApplicationConfiguration> config)
+    public MetricPublisher( IStandardPublisher<MetricMessage> publisher)
     {
         _metricPublisher = publisher;
-        _config = config.Value;
     }
 
-    public void SendMetric(long timeInMS, DateTime timeStamp) => 
+    public void SendMetric(string metric, long timeInMS, DateTime timeStamp) => 
         _metricPublisher.Send(
             new MetricMessage()
             {
-                Application = _config.Name,
+                Application = metric,
                 TimeInMS = timeInMS,
                 TimeStamp = timeStamp
             });

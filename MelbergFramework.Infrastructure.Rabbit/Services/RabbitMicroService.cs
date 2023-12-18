@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using MelbergFramework.Infrastructure.Rabbit.Consumers;
 using MelbergFramework.Infrastructure.Rabbit.Extensions;
 using MelbergFramework.Infrastructure.Rabbit.Factory;
 using MelbergFramework.Infrastructure.Rabbit.Messages;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
@@ -15,10 +17,10 @@ using RabbitMQ.Client.Events;
 
 namespace MelbergFramework.Infrastructure.Rabbit;
 public class RabbitMicroService<TConsumer> : BackgroundService
-where TConsumer : class, IStandardConsumer
+where TConsumer : class, IStandardConsumer 
 {
     private readonly string _selector;
-    private readonly IStandardConsumer _consumer;
+    private readonly IServiceProvider _serviceProvider;
     private readonly IRabbitConfigurationProvider _configurationProvider;
     private readonly IStandardConnectionFactory _connectionFactory;
     private readonly ILogger _logger;
@@ -26,13 +28,13 @@ where TConsumer : class, IStandardConsumer
     
     public RabbitMicroService(
         string selector,
-        TConsumer consumer,
+        IServiceProvider serviceProvider,
         IRabbitConfigurationProvider configurationProvider, 
         IStandardConnectionFactory connectionFactory, 
         ILogger logger)
     {
         _selector = selector;
-        _consumer = consumer;
+        _serviceProvider = serviceProvider;
         _connectionFactory = connectionFactory;
         _configurationProvider = configurationProvider;
         _logger = logger;
@@ -55,7 +57,7 @@ where TConsumer : class, IStandardConsumer
         var consumer = new AsyncEventingBasicConsumer(channel);
         consumer.Received += async (ch, ea) =>
         {
-        
+
             var message = new Message()
             {
                 RoutingKey = ea.RoutingKey,
@@ -81,9 +83,13 @@ where TConsumer : class, IStandardConsumer
     {
         try
         {
-            await _consumer.ConsumeMessageAsync(message, cancellationToken);     
+            var scope = _serviceProvider.CreateScope();
+            await scope
+                .ServiceProvider
+                .GetService<TConsumer>()
+                .ConsumeMessageAsync(message, cancellationToken);     
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             _logger.LogError(ex.Message);
             throw;

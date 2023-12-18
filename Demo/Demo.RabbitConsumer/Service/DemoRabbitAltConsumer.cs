@@ -11,8 +11,12 @@ namespace Demo.RabbitConsumer.Service;
 
 public class DemoRabbitAltConsumer : IStandardConsumer
 {
-    public DemoRabbitAltConsumer()
+    private ILogger _logger;
+    public DemoRabbitAltConsumer(ILogger logger)
     {
+        _logger = logger;
+        _logger.LogInformation("A");
+
     }
 
     public Task ConsumeMessageAsync(Message message, CancellationToken ct)

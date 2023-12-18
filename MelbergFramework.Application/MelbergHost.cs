@@ -35,10 +35,7 @@ public static class MelbergHost
             
             var sup = ActivatorUtilities.CreateInstance<Service>(ServiceProvider);
             s
-            .AddLogging(
-                (a) => a
-                .SetMinimumLevel(LogLevel.Information)
-                .AddConsole())
+            .AddLogging( (a) => a .SetMinimumLevel(LogLevel.Information).AddConsole())
             .BuildServiceProvider();
 
             var logger = ServiceProvider.GetService<ILoggerFactory>().CreateLogger<Service>();
