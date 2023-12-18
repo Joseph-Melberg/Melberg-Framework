@@ -4,5 +4,5 @@ namespace MelbergFramework.Infrastructure.Rabbit.Metrics;
 
 public interface IMetricPublisher
 {
-    void SendMetric(long timeInMS, DateTime timeStamp);
+    void SendMetric(string metric, long timeInMS, DateTime timeStamp);
 }

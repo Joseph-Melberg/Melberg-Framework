@@ -40,6 +40,6 @@ public class RabbitServiceWithMetrics : RabbitService
         await base.ConsumeMessageAsync(message, cancellationToken);
         timer.Stop();
     
-        _metricPublisher.SendMetric(timer.ElapsedMilliseconds, now);
+        _metricPublisher.SendMetric("holdover",timer.ElapsedMilliseconds, now);
     }
 }

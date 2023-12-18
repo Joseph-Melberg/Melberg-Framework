@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Demo.RabbitConsumer.Messages;
 using Demo.RabbitConsumer.Service;
 using MelbergFramework.Application;
 using MelbergFramework.Infrastructure.Rabbit;
@@ -14,7 +15,7 @@ public class Startup : IAppStartup
     public  void ConfigureServices(IServiceCollection services)
     {
         RabbitModule.RegisterConsumer<DemoRabbitConsumer>(services);
-        RabbitModule.RegisterMicroConsumer<DemoRabbitAltConsumer>(services, "alt");
+        RabbitModule.RegisterMicroConsumer<DemoRabbitAltConsumer, TestMessage>(services);
         Register.RegisterServices(services);
     }
 
