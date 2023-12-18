@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using MelbergFramework.Core.Health;
 using MelbergFramework.Core.Rabbit;
 using MelbergFramework.Core.Rabbit.Configurations;
@@ -21,6 +23,7 @@ namespace MelbergFramework.Infrastructure.Rabbit
         where TModel : class
         {
             var selector = typeof(TModel).Name;
+
             catalog.AddSingleton<IStandardConnectionFactory, StandardConnectionFactory>();
             catalog.AddSingleton<IRabbitConfigurationProvider,RabbitConfigurationProvider>();
             catalog.AddTransient<TConsumer,TConsumer>();

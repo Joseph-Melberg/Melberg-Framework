@@ -57,6 +57,7 @@ where TConsumer : class, IStandardConsumer
         var consumer = new AsyncEventingBasicConsumer(channel);
         consumer.Received += async (ch, ea) =>
         {
+
             var message = new Message()
             {
                 RoutingKey = ea.RoutingKey,

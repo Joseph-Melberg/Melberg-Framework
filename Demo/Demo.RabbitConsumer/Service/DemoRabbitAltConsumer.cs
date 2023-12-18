@@ -16,6 +16,7 @@ public class DemoRabbitAltConsumer : IStandardConsumer
     {
         _logger = logger;
         _logger.LogInformation("A");
+
     }
 
     public Task ConsumeMessageAsync(Message message, CancellationToken ct)
