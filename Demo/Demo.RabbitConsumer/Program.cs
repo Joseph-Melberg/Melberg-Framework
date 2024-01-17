@@ -12,6 +12,7 @@ namespace Demo.RabbitConsumer
         static async Task Main(string[] args)
         {
             await MelbergHost.CreateDefaultApp<Startup>().Build().Begin(CancellationToken.None);
+
             //var tasks = servies.Select(_ => Task.Run(()=> _.StartAsync(CancellationToken.None)));
             //await Task.WhenAll(tasks);
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using MelbergFramework.Core.Rabbit;
@@ -64,7 +65,8 @@ where TConsumer : class, IStandardConsumer
                 Headers = ea.BasicProperties.Headers ?? new Dictionary<string,object>(),
                 Body = ea.Body.ToArray()
             };
-
+            
+            Trace.CorrelationManager.ActivityId = message.GetCoID();
             message.Timestamp = message.GetTimestamp();
 
 
@@ -81,19 +83,22 @@ where TConsumer : class, IStandardConsumer
 
     public virtual async Task ConsumeMessageAsync(Message message, CancellationToken cancellationToken) 
     {
+        Trace.CorrelationManager.StartLogicalOperation(typeof(TConsumer).Name+"_consumer");
         try
         {
-            var scope = _serviceProvider.CreateScope();
-            await scope
-                .ServiceProvider
-                .GetService<TConsumer>()
-                .ConsumeMessageAsync(message, cancellationToken);     
+            using(var scope = _serviceProvider.CreateScope())
+            {
+                await scope
+                    .ServiceProvider
+                    .GetService<TConsumer>()
+                    .ConsumeMessageAsync(message, cancellationToken);     
+            }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            throw;
         }
+        Trace.CorrelationManager.StopLogicalOperation();
     } 
 
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace MelbergFramework.Infrastructure.Rabbit.Messages;
@@ -9,6 +10,7 @@ public abstract class StandardMessage : IStandardMessage
     protected StandardMessage()
     {
         SetHeaderValue(Headers.Timestamp, DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture));
+        SetHeaderValue(Headers.CorrelationId, Trace.CorrelationManager.ActivityId.ToString());
     }
     IDictionary<string, object> _headers = new Dictionary<string, object>();
 
@@ -33,5 +35,6 @@ public abstract class StandardMessage : IStandardMessage
 
 public static class Headers
 {
+    public const string CorrelationId = "coid";
     public const string Timestamp = "timestamp";
 }
