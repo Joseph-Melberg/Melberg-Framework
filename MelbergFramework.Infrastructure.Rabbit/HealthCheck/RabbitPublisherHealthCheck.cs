@@ -1,9 +1,7 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MelbergFramework.Core.Health;
 using MelbergFramework.Infrastructure.Rabbit.Factory;
-using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 
 namespace MelbergFramework.Infrastructure.Rabbit.Health;
@@ -17,9 +15,6 @@ public class RabbitPublisherHealthCheck<TMessage> : HealthCheck
     }
     public override string Name => "rabbitpublisher_"+typeof(TMessage).Name;
 
-    public override Task<bool> IsOk(CancellationToken token)
-    {
-
-        return Task.FromResult(_connection.IsOpen);
-    }
+    public override Task<bool> IsOk(CancellationToken token) =>
+        Task.FromResult(_connection.IsOpen);
 }

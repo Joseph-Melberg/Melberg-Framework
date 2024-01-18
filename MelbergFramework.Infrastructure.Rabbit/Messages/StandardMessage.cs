@@ -7,11 +7,7 @@ namespace MelbergFramework.Infrastructure.Rabbit.Messages;
 
 public abstract class StandardMessage : IStandardMessage
 {
-    protected StandardMessage()
-    {
-        SetHeaderValue(Headers.Timestamp, DateTime.UtcNow.ToString("o", CultureInfo.InvariantCulture));
-        SetHeaderValue(Headers.CorrelationId, Trace.CorrelationManager.ActivityId.ToString());
-    }
+    protected StandardMessage() { }
     IDictionary<string, object> _headers = new Dictionary<string, object>();
 
     public IDictionary<string, object> GetHeaders() => _headers;
@@ -19,17 +15,7 @@ public abstract class StandardMessage : IStandardMessage
     public abstract string GetRoutingKey();
     protected void SetHeaderValue(string key, string value)
     {
-        if (_headers.ContainsKey(key))
-        {
-            if (value == null)
-                _headers.Remove(key);
-            else
-                _headers[key] = value;
-        }
-        else if (value != null)
-        {
-            _headers.Add(key, value);
-        }
+        _headers[key] =  value;
     }
 }
 

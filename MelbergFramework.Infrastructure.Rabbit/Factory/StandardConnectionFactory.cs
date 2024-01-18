@@ -1,8 +1,6 @@
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using MelbergFramework.Core.Rabbit.Configurations;
 using MelbergFramework.Core.Rabbit.Configurations.Data;
-using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 
 namespace MelbergFramework.Infrastructure.Rabbit.Factory;
@@ -10,15 +8,11 @@ namespace MelbergFramework.Infrastructure.Rabbit.Factory;
 public class StandardConnectionFactory : IStandardConnectionFactory
 {
     private readonly IRabbitConfigurationProvider _configurationProvider;
-    private readonly ILogger _logger;
     private static IModel _consumerChannel;
 
     private static ConcurrentDictionary<string,IConnection> _publisherConnections = new ConcurrentDictionary<string, IConnection>();
-    public StandardConnectionFactory(
-        IRabbitConfigurationProvider configurationProvider,
-        ILogger logger)
+    public StandardConnectionFactory( IRabbitConfigurationProvider configurationProvider)
     {
-        _logger = logger;
         _configurationProvider = configurationProvider;
     }
     private IConnection GenerateConsumerConnection(string consumerName)
@@ -37,24 +31,21 @@ public class StandardConnectionFactory : IStandardConnectionFactory
 
     public IModel GetConsumerModel(string name = "IncommingMessages")
     {
-        if(_consumerChannel == null)    
-        {
-            _logger.LogInformation($"Consumer channel created.");
-            _consumerChannel = GenerateConsumerConnection(name).CreateModel();
-        }
-        _logger.LogInformation($"Consumer channel acquired.");
+        _consumerChannel??= GenerateConsumerConnection(name).CreateModel();
+        
         return _consumerChannel;
-    }
-
+    } 
     private IConnection MakeNewConnection(ConnectionFactoryConfigData connectionConfig)
     {
-        var factory = new ConnectionFactory();
-        factory.UserName = connectionConfig.UserName;
-        factory.Password = connectionConfig.Password;
-        factory.VirtualHost = "/";
-        factory.DispatchConsumersAsync = true;
-        factory.HostName = connectionConfig.ServerName;
-        factory.ClientProvidedName = connectionConfig.ClientName;
+        var factory = new ConnectionFactory()
+        {
+            UserName = connectionConfig.UserName,
+            Password = connectionConfig.Password,
+            VirtualHost = "/",
+            DispatchConsumersAsync = true,
+            HostName = connectionConfig.ServerName,
+            ClientProvidedName = connectionConfig.ClientName,
+        };
         return factory.CreateConnection();
     }
 

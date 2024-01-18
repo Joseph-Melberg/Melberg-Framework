@@ -12,11 +12,11 @@ namespace MelbergFramework.Application.Health;
 
 public class HealthCheckBackgroundService : BackgroundService
 {
-    private readonly ILogger _logger;
+    private readonly ILogger<HealthCheckBackgroundService> _logger;
     private readonly IHealthCheckChecker _checker;
     public HealthCheckBackgroundService(
         IHealthCheckChecker checker,
-        ILogger logger)
+        ILogger<HealthCheckBackgroundService> logger)
     {
         _checker = checker;
         _logger = logger;
