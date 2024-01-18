@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using MelbergFramework.Core.Rabbit;
+using MelbergFramework.Core.Application;
 using MelbergFramework.Core.Rabbit.Configurations;
 using MelbergFramework.Infrastructure.Rabbit.Configuration;
 using MelbergFramework.Infrastructure.Rabbit.Consumers;
 using MelbergFramework.Infrastructure.Rabbit.Extensions;
 using MelbergFramework.Infrastructure.Rabbit.Factory;
 using MelbergFramework.Infrastructure.Rabbit.Messages;
+using MelbergFramework.Infrastructure.Rabbit.Metrics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -21,23 +23,28 @@ public class RabbitMicroService<TConsumer> : BackgroundService
 where TConsumer : class, IStandardConsumer 
 {
     private readonly string _selector;
+    private readonly string _metricName;
     private readonly IServiceProvider _serviceProvider;
     private readonly IRabbitConfigurationProvider _configurationProvider;
     private readonly IStandardConnectionFactory _connectionFactory;
-    private readonly ILogger _logger;
-
+    private readonly IMetricPublisher _metricPublisher;
+    private readonly ILogger<RabbitMicroService<TConsumer>> _logger;
     
     public RabbitMicroService(
         string selector,
         IServiceProvider serviceProvider,
         IRabbitConfigurationProvider configurationProvider, 
         IStandardConnectionFactory connectionFactory, 
-        ILogger logger)
+        IMetricPublisher metricPublisher,
+        IOptions<ApplicationConfiguration> applicationOptions,
+        ILogger<RabbitMicroService<TConsumer>> logger)
     {
         _selector = selector;
+        _metricName = string.Join("_",applicationOptions.Value.Name,_selector,"consumer");
         _serviceProvider = serviceProvider;
         _connectionFactory = connectionFactory;
         _configurationProvider = configurationProvider;
+        _metricPublisher = metricPublisher;
         _logger = logger;
     }
 
@@ -67,8 +74,6 @@ where TConsumer : class, IStandardConsumer
             };
             
             Trace.CorrelationManager.ActivityId = message.GetCoID();
-            message.Timestamp = message.GetTimestamp();
-
 
             await ConsumeMessageAsync(message, stoppingToken);
 
@@ -83,9 +88,14 @@ where TConsumer : class, IStandardConsumer
 
     public virtual async Task ConsumeMessageAsync(Message message, CancellationToken cancellationToken) 
     {
-        Trace.CorrelationManager.StartLogicalOperation(typeof(TConsumer).Name+"_consumer");
+        var name = _selector+"_consumer";
+        Trace.CorrelationManager.StartLogicalOperation(name);
+
+        var now = DateTime.UtcNow;
         try
         {
+            var stopwatch = new Stopwatch(); 
+            stopwatch.Start();
             using(var scope = _serviceProvider.CreateScope())
             {
                 await scope
@@ -93,6 +103,8 @@ where TConsumer : class, IStandardConsumer
                     .GetService<TConsumer>()
                     .ConsumeMessageAsync(message, cancellationToken);     
             }
+            stopwatch.Stop();
+            _metricPublisher.SendMetric(_metricName,stopwatch.ElapsedMilliseconds,now);
         }
         catch (Exception ex)
         {

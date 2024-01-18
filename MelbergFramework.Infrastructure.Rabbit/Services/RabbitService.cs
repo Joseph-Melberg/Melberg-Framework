@@ -76,9 +76,6 @@ public class RabbitService : BackgroundService
                 Body = ea.Body.ToArray()
             };
 
-            message.Timestamp = message.GetTimestamp();
-
-
             await ConsumeMessageAsync(message, cancellationToken);
 
             channel.BasicAck(ea.DeliveryTag, false);
