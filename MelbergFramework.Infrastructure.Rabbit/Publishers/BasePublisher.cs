@@ -8,7 +8,7 @@ using RabbitMQ.Client;
 
 namespace MelbergFramework.Infrastructure.Rabbit.Publishers;
 
-public abstract class BasePublisher<TMessage> : IDisposable
+public abstract class BasePublisher<TMessage>
     where TMessage :  IStandardMessage
 {
     private IModel _channel;
@@ -35,11 +35,6 @@ public abstract class BasePublisher<TMessage> : IDisposable
         _connectionFactory = new StandardConnectionFactory(configurationProvider);
     }
 
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
 
     public void Emit(Message message)
     {
