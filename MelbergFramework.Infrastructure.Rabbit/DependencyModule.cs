@@ -18,7 +18,7 @@ namespace MelbergFramework.Infrastructure.Rabbit
 {
     public static class RabbitModule
     {
-        public static void RegisterMicroConsumer<TConsumer, TModel>(IServiceCollection catalog)
+        public static void RegisterMicroConsumer<TConsumer, TModel>(IServiceCollection catalog, bool sendMetrics)
         where TConsumer : class, IStandardConsumer
         where TModel : class
         {
@@ -28,15 +28,18 @@ namespace MelbergFramework.Infrastructure.Rabbit
             catalog.AddTransient<TConsumer,TConsumer>();
             catalog.AddSingleton<IHealthCheck>((s) => new RabbitConsumerHealthCheck(s,selector));
             catalog.AddTransient<IJsonToObjectTranslator<TModel>,JsonToObjectTranslator<TModel>>();
-            catalog.AddTransient<IMetricPublisher, MetricPublisher>();
-            RegisterPublisher<MetricMessage>(catalog);
+            if(sendMetrics)
+            {
+                catalog.AddTransient<IMetricPublisher, MetricPublisher>();
+                RegisterPublisher<MetricMessage>(catalog);
+            }
             catalog.AddHostedService(
                 (s) => new RabbitMicroService<TConsumer>(
                     selector,
                     s,
                     s.GetService<IRabbitConfigurationProvider>(),
                     s.GetService<IStandardConnectionFactory>(),
-                    s.GetService<IMetricPublisher>(),
+                    sendMetrics ? s.GetService<IMetricPublisher>() : null,
                     s.GetService<IOptions<ApplicationConfiguration>>(),
                     s.GetService<ILogger<RabbitMicroService<TConsumer>>>())
             );
