@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using Demo.Microservice;
+using Demo.Microservice.Publisher;
 using MelbergFramework.Application;
 using MelbergFramework.Infrastructure.Rabbit;
 using MelbergFramework.Infrastructure.Rabbit.Messages;
@@ -11,6 +13,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.RegisterRequired();
+
+builder.Services.AddTransient<IPublisherTest,PublisherTest>();
+RabbitModule.RegisterPublisher<TestMessage>(builder.Services);
 
 RabbitModule.RegisterMicroConsumer<TestPillar, TickMessage>(builder.Services, !builder.Environment.IsDevelopment());
 var app = builder.Build();
@@ -31,4 +36,17 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+var sto = new Stopwatch();
+
+while(true)
+{
+    sto.Restart();
+    using(var scope = app.Services.CreateScope())
+    {
+        var pub = scope.ServiceProvider.GetService<IPublisherTest>();
+        pub.Send();
+    }
+    Console.WriteLine(sto.ElapsedMilliseconds);
+
+}
 app.Run();

@@ -8,7 +8,7 @@ public class StandardPublisher<T> : BasePublisher<T>, IStandardPublisher<T> wher
 {
     private readonly IObjectToJsonTranslator _translator = new ObjectToJsonTranslator();
 
-    public StandardPublisher(IRabbitConfigurationProvider configurationProvider): base(configurationProvider) { }
+    public StandardPublisher(IRabbitConfigurationProvider configurationProvider) : base(configurationProvider) { }
     public virtual void Send(T message)
     {
         var result = _translator.Translate(message);
