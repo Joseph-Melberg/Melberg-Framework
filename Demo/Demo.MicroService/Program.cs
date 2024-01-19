@@ -14,7 +14,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.RegisterRequired();
 
-
 builder.Services.AddTransient<IPublisherTest,PublisherTest>();
 RabbitModule.RegisterPublisher<TestMessage>(builder.Services);
 
