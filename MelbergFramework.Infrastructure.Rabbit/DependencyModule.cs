@@ -81,7 +81,7 @@ namespace MelbergFramework.Infrastructure.Rabbit
             where TMessage : IStandardMessage
         {
             catalog.AddSingleton<IStandardConnectionFactory, StandardConnectionFactory>();
-            catalog.AddTransient<IStandardPublisher<TMessage>,StandardPublisher<TMessage>>();
+            catalog.AddSingleton<IStandardPublisher<TMessage>,StandardPublisher<TMessage>>();
             catalog.AddSingleton<IRabbitConfigurationProvider,RabbitConfigurationProvider>();
             catalog.AddSingleton<IHealthCheck,RabbitPublisherHealthCheck<TMessage>>();
         }
