@@ -104,7 +104,10 @@ where TConsumer : class, IStandardConsumer
                     .ConsumeMessageAsync(message, cancellationToken);     
             }
             stopwatch.Stop();
-            _metricPublisher.SendMetric(_metricName,stopwatch.ElapsedMilliseconds,now);
+            if(_metricPublisher != null)
+            {
+                _metricPublisher.SendMetric(_metricName,stopwatch.ElapsedMilliseconds,now);
+            }
         }
         catch (Exception ex)
         {

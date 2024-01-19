@@ -12,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.RegisterRequired();
 
-RabbitModule.RegisterMicroConsumer<TestPillar, TickMessage>(builder.Services);
+RabbitModule.RegisterMicroConsumer<TestPillar, TickMessage>(builder.Services, !builder.Environment.IsDevelopment());
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

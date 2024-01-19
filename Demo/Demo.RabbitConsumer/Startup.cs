@@ -16,7 +16,7 @@ public class Startup : IAppStartup
     {
         RabbitModule.RegisterConsumer<DemoRabbitConsumer>(services);
 
-        RabbitModule.RegisterMicroConsumer<DemoRabbitAltConsumer, TestMessage>(services);
+        RabbitModule.RegisterMicroConsumer<DemoRabbitAltConsumer, TestMessage>(services, false);
 
         Register.RegisterServices(services);
     }
