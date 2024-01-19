@@ -1,4 +1,4 @@
-using Demo.Microservice;
+susing Demo.Microservice;
 using MelbergFramework.Application;
 using MelbergFramework.Infrastructure.Rabbit;
 using MelbergFramework.Infrastructure.Rabbit.Messages;
