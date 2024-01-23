@@ -92,22 +92,21 @@ where TConsumer : class, IStandardConsumer
 
         var now = DateTime.UtcNow;
         try
-        {
+        {                
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             using (var scope = _serviceProvider.CreateScope())
-            {
-                var stopwatch = new Stopwatch();
-                stopwatch.Start();
-            
+            {          
                 await scope
                     .ServiceProvider
                     .GetService<TConsumer>()
                     .ConsumeMessageAsync(message, cancellationToken);
 
-                stopwatch.Stop();
-                if (_metricPublisher != null)
-                {
-                    _metricPublisher.SendMetric(_metricName, stopwatch.ElapsedMilliseconds, now);
-                }
+            }
+            stopwatch.Stop();
+            if (_metricPublisher != null)
+            {
+                _metricPublisher.SendMetric(_metricName, stopwatch.ElapsedMilliseconds, now);
             }
         }
         catch (Exception ex)
