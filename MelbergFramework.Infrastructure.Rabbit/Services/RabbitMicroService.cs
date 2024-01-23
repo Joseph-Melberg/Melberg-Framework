@@ -20,7 +20,7 @@ using RabbitMQ.Client.Events;
 
 namespace MelbergFramework.Infrastructure.Rabbit;
 public class RabbitMicroService<TConsumer> : BackgroundService
-where TConsumer : class, IStandardConsumer 
+where TConsumer : class, IStandardConsumer
 {
     private readonly string _selector;
     private readonly string _metricName;
@@ -29,18 +29,18 @@ where TConsumer : class, IStandardConsumer
     private readonly IStandardConnectionFactory _connectionFactory;
     private readonly IMetricPublisher _metricPublisher;
     private readonly ILogger<RabbitMicroService<TConsumer>> _logger;
-    
+
     public RabbitMicroService(
         string selector,
         IServiceProvider serviceProvider,
-        IRabbitConfigurationProvider configurationProvider, 
-        IStandardConnectionFactory connectionFactory, 
+        IRabbitConfigurationProvider configurationProvider,
+        IStandardConnectionFactory connectionFactory,
         IMetricPublisher metricPublisher,
         IOptions<ApplicationConfiguration> applicationOptions,
         ILogger<RabbitMicroService<TConsumer>> logger)
     {
         _selector = selector;
-        _metricName = string.Join("_",applicationOptions.Value.Name,_selector,"consumer");
+        _metricName = string.Join("_", applicationOptions.Value.Name, _selector, "consumer");
         _serviceProvider = serviceProvider;
         _connectionFactory = connectionFactory;
         _configurationProvider = configurationProvider;
@@ -58,55 +58,54 @@ where TConsumer : class, IStandardConsumer
 
         var amqpObjects = _configurationProvider.GetAmqpObjectsConfiguration();
 
-        channel.ConfigureExchanges(connectionConfig.Name,amqpObjects.ExchangeList, _logger);
-        channel.ConfigureQueues(connectionConfig.Name,amqpObjects.QueueList, _logger);
-        channel.ConfigureBindings(connectionConfig.Name,amqpObjects.BindingList, _logger);
-        
-        var consumer = new AsyncEventingBasicConsumer(channel);
-        consumer.Received += async (ch, ea) =>
+        channel.ConfigureExchanges(connectionConfig.Name, amqpObjects.ExchangeList, _logger);
+        channel.ConfigureQueues(connectionConfig.Name, amqpObjects.QueueList, _logger);
+        channel.ConfigureBindings(connectionConfig.Name, amqpObjects.BindingList, _logger);
+        using (var scope = _serviceProvider.CreateScope())
         {
-
-            var message = new Message()
+            var tconsumer = scope.ServiceProvider.GetService<TConsumer>();
+            var consumer = new AsyncEventingBasicConsumer(channel);
+            consumer.Received += async (ch, ea) =>
             {
-                RoutingKey = ea.RoutingKey,
-                Headers = ea.BasicProperties.Headers ?? new Dictionary<string,object>(),
-                Body = ea.Body.ToArray()
+
+                var message = new Message()
+                {
+                    RoutingKey = ea.RoutingKey,
+                    Headers = ea.BasicProperties.Headers ?? new Dictionary<string, object>(),
+                    Body = ea.Body.ToArray()
+                };
+
+                Trace.CorrelationManager.ActivityId = message.GetCoID();
+
+                await ConsumeMessageAsync(message,tconsumer, stoppingToken);
+
+                channel.BasicAck(ea.DeliveryTag, false);
+                await Task.Yield();
             };
-            
-            Trace.CorrelationManager.ActivityId = message.GetCoID();
 
-            await ConsumeMessageAsync(message, stoppingToken);
+            var consumerTag = channel.BasicConsume(receiverConfig.Queue, false, consumer);
 
-            channel.BasicAck(ea.DeliveryTag, false);
-            await Task.Yield();
-        };
+            await Task.Delay(Timeout.Infinite, stoppingToken);
+        }
 
-        var consumerTag = channel.BasicConsume(receiverConfig.Queue, false, consumer);
-
-        await Task.Delay(Timeout.Infinite, stoppingToken); 
     }
 
-    public virtual async Task ConsumeMessageAsync(Message message, CancellationToken cancellationToken) 
+    public virtual async Task ConsumeMessageAsync(Message message, TConsumer consumer, CancellationToken cancellationToken)
     {
-        var name = _selector+"_consumer";
+        var name = _selector + "_consumer";
         Trace.CorrelationManager.StartLogicalOperation(name);
 
         var now = DateTime.UtcNow;
         try
         {
-            var stopwatch = new Stopwatch(); 
+            var stopwatch = new Stopwatch();
             stopwatch.Start();
-            using(var scope = _serviceProvider.CreateScope())
-            {
-                await scope
-                    .ServiceProvider
-                    .GetService<TConsumer>()
-                    .ConsumeMessageAsync(message, cancellationToken);     
-            }
+            await consumer.ConsumeMessageAsync(message, cancellationToken);
+
             stopwatch.Stop();
-            if(_metricPublisher != null)
+            if (_metricPublisher != null)
             {
-                _metricPublisher.SendMetric(_metricName,stopwatch.ElapsedMilliseconds,now);
+                _metricPublisher.SendMetric(_metricName, stopwatch.ElapsedMilliseconds, now);
             }
         }
         catch (Exception ex)
@@ -114,6 +113,6 @@ where TConsumer : class, IStandardConsumer
             _logger.LogError(ex.Message);
         }
         Trace.CorrelationManager.StopLogicalOperation();
-    } 
+    }
 
 }
