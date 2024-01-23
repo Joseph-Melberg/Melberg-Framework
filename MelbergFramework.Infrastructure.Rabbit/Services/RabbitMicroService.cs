@@ -61,47 +61,48 @@ where TConsumer : class, IStandardConsumer
         channel.ConfigureExchanges(connectionConfig.Name, amqpObjects.ExchangeList, _logger);
         channel.ConfigureQueues(connectionConfig.Name, amqpObjects.QueueList, _logger);
         channel.ConfigureBindings(connectionConfig.Name, amqpObjects.BindingList, _logger);
-        using (var scope = _serviceProvider.CreateScope())
+
+        var consumer = new AsyncEventingBasicConsumer(channel);
+        consumer.Received += async (ch, ea) =>
         {
-            var tconsumer = scope.ServiceProvider.GetService<TConsumer>();
-            var consumer = new AsyncEventingBasicConsumer(channel);
-            consumer.Received += async (ch, ea) =>
+            var message = new Message()
             {
-
-                var message = new Message()
-                {
-                    RoutingKey = ea.RoutingKey,
-                    Headers = ea.BasicProperties.Headers ?? new Dictionary<string, object>(),
-                    Body = ea.Body.ToArray()
-                };
-
-                Trace.CorrelationManager.ActivityId = message.GetCoID();
-
-                await ConsumeMessageAsync(message,tconsumer, stoppingToken);
-
-                channel.BasicAck(ea.DeliveryTag, false);
-                await Task.Yield();
+                RoutingKey = ea.RoutingKey,
+                Headers = ea.BasicProperties.Headers ?? new Dictionary<string, object>(),
+                Body = ea.Body.ToArray()
             };
 
-            var consumerTag = channel.BasicConsume(receiverConfig.Queue, false, consumer);
+            Trace.CorrelationManager.ActivityId = message.GetCoID();
 
-            await Task.Delay(Timeout.Infinite, stoppingToken);
-        }
+            await ConsumeMessageAsync(message, stoppingToken);
+
+            channel.BasicAck(ea.DeliveryTag, false);
+            await Task.Yield();
+        };
+        var consumerTag = channel.BasicConsume(receiverConfig.Queue, false, consumer);
+        await Task.Delay(Timeout.Infinite, stoppingToken);
+        
 
     }
 
-    public virtual async Task ConsumeMessageAsync(Message message, TConsumer consumer, CancellationToken cancellationToken)
+    public virtual async Task ConsumeMessageAsync(Message message, CancellationToken cancellationToken)
     {
         var name = _selector + "_consumer";
         Trace.CorrelationManager.StartLogicalOperation(name);
 
         var now = DateTime.UtcNow;
         try
-        {
+        {                
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            await consumer.ConsumeMessageAsync(message, cancellationToken);
+            using (var scope = _serviceProvider.CreateScope())
+            {          
+                await scope
+                    .ServiceProvider
+                    .GetService<TConsumer>()
+                    .ConsumeMessageAsync(message, cancellationToken);
 
+            }
             stopwatch.Stop();
             if (_metricPublisher != null)
             {
