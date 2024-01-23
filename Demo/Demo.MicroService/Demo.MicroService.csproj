@@ -13,5 +13,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\MelbergFramework.Application\MelbergFramework.Application.csproj" />
 		<ProjectReference Include="..\..\MelbergFramework.Infrastructure.Rabbit\MelbergFramework.Infrastructure.Rabbit.csproj" />
+		<ProjectReference Include="..\..\MelbergFramework.Infrastructure.Redis\MelbergFramework.Infrastructure.Redis.csproj" />
 	</ItemGroup>
 </Project>

@@ -4,12 +4,9 @@ namespace MelbergFramework.Infrastructure.Redis.Repository;
 public class RedisRepository<TContext>
     where TContext : RedisContext
 {
+    private readonly TContext _context;
 
-    public IDatabaseAsync DB {get; private set;}
-    public IServer Server {get; private set;}
-    public RedisRepository(TContext context)
-    {
-        DB = context.DB;
-        Server = context.Server;
-    }
+    public IDatabaseAsync DB  => _context.DB;
+    public IServer Server => _context.Server;
+    public RedisRepository(TContext context) { _context = context; }
 }
