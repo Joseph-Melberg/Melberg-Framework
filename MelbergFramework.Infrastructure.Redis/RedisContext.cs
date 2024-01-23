@@ -17,7 +17,6 @@ public class RedisContext
         }
         _connection = ConnectionMultiplexer.Connect(connectionString);
         
-        DB = _connection.GetDatabase();
         //StackExchange had to have a good reason to think that this was how 
         //their code should work.
 
@@ -29,5 +28,5 @@ public class RedisContext
     }
 
     public IServer Server {get; private set;}
-    public IDatabaseAsync DB{ get; private set;}
+    public IDatabaseAsync DB => _connection.GetDatabase();
 }
